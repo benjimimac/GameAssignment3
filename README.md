@@ -3,9 +3,18 @@ My third OOP assignment in year 2, a basic Digital Audio Workstation (DAW). Thes
 
 Abstract:
 Team members: Just me (Ben).
-Language: Python.
+Language: Java.
 
-So I'm learning the Python language for this assignment, going well so far.
+So I've learned the Python language for this assignment. Nice easy language so long 
+as you don't want to use any none standard packages. If you do, then all of a sudden 
+it becomes the stupidest programming language in the world! I would never ever
+reccommend it  to learn to anyone based on how ridiculously impossible it is to
+get these third party packages to just even install without having huge knowledge
+of compiling these packages. And the documentation online is terrible! I'm doing
+this assignment in Java now. Within ten minutes research I've found an abundance of
+documentation for different things that I want to do, and even some video tutorials.
+I will never ever use Python again, I hate it as a language!!
+
 My aim is to have implemented a somewhat basic for of a DAW program, like
 Cakewalk, or Pro Tools. I should be able to connect a guitar, bass, microphone
 to the laptop and record the raw sound and then manipulate that sound and add
