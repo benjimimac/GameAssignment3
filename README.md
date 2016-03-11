@@ -1,10 +1,18 @@
-# DAWAssignment3
-My third OOP assignment in year 2, a basic Digital Audio Workstation (DAW). These are commonly used to produce, edit and master music.
+# GameAssignment3
+My third OOP assignment in year 2, a basic version of the game Reversi (Othello). 
 
 Abstract:
 Team members: Just me (Ben).
 Language: Java.
 
+I will try to implement a version of the game Reversi, which was available on Windows XP
+computers back in the day. I will also try and implement a gui, using the Java Swing
+library.
+
+
+
+
+NO Longer Applicable:
 So I've learned the Python language for this assignment. Nice easy language so long 
 as you don't want to use any none standard packages. If you do, then all of a sudden 
 it becomes the stupidest programming language in the world! I would never ever
