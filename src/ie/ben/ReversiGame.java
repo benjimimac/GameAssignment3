@@ -1,8 +1,8 @@
 package ie.ben;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Insets;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -14,11 +14,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class ReversiGame extends JFrame {
 
 	MainMenu menu;
+	//Game game;
+	Tile tile;
 	public static final int TILE_SIZE = 75;
 	public static final int TILES_PER = 8;
 	public static final int BOARD_START_X = 50;
@@ -26,6 +29,7 @@ public class ReversiGame extends JFrame {
 	public static final int PIECE_SIZE = 52;
 	public static final int PIECE_START_X = 63;
 	public static final int PIECE_START_Y = 163;
+	public static int num = 0;
 	
 	// Public constructor for the game
 	public ReversiGame() {
@@ -45,6 +49,17 @@ public class ReversiGame extends JFrame {
 		createMenuBar();
 		menu = new MainMenu();
 		add(menu);
+		menu.setVisible(false);
+		
+		JPanel pan1 = new JPanel();
+		JPanel pan2 = new JPanel();
+		//game = new Game();
+		tile = new Tile();
+		pan1.setLayout(new GridLayout(TILES_PER, TILES_PER, 0, 0));
+		pan1.add(tile);
+		pan2.add(pan1);
+		add(pan2, BorderLayout.SOUTH);
+		//game.setVisible(false);
 //		menu = new MainMenu();
 		//add(menu);
 
@@ -56,8 +71,10 @@ public class ReversiGame extends JFrame {
 		// Set the title/size/position/close operation
 		setTitle("Reversi");
 		setSize(700, 900);
+		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		
 		
 	}

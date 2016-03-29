@@ -42,7 +42,7 @@ public class MainMenu extends JPanel {
 
 	public MainMenu() {
 
-		setPreferredSize(new Dimension(300, 300));
+		//setPreferredSize(new Dimension(300, 300));
 
 	}
 
@@ -52,9 +52,10 @@ public class MainMenu extends JPanel {
 	// add(main);
 	// }
 
+	//The paintComponent method is called automatically
+	//Here I override it, and also call its super in my implementation
 	@Override
 	public void paintComponent(Graphics graphic) {
-
 		super.paintComponent(graphic);
 		// drawMenuBoard(g);
 
@@ -65,6 +66,8 @@ public class MainMenu extends JPanel {
 		menuHeight = size.height - insets.top - insets.bottom - 1;
 
 		System.out.println(getInsets().top + ", " + getSize().width + ", " + menuWidth);
+		graphic.setColor(new Color(9, 22, 66));
+		graphic.fillRect(0, 0, size.width, size.height);
 
 		graphic.setColor(new Color(127, 127, 127));
 
@@ -86,6 +89,8 @@ public class MainMenu extends JPanel {
 
 		for (int i = 0; i <= ReversiGame.TILES_PER - 1; i++) {
 			for (int j = 0; j <= ReversiGame.TILES_PER - 1; j++) {
+
+				System.out.println(ReversiGame.num++);
 				if (i == j) {
 					graphic.setColor(new Color(255, 255, 255));
 					graphic.fillOval(ReversiGame.PIECE_START_X + (ReversiGame.TILE_SIZE * j),
