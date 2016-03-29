@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 public class ReversiGame extends JFrame {
 
 	MainMenu menu;
-	//Game game;
+	// Game game;
 	Tile tile;
 	public static final int TILE_SIZE = 75;
 	public static final int TILES_PER = 8;
@@ -30,7 +30,7 @@ public class ReversiGame extends JFrame {
 	public static final int PIECE_START_X = 63;
 	public static final int PIECE_START_Y = 163;
 	public static int num = 0;
-	
+
 	// Public constructor for the game
 	public ReversiGame() {
 
@@ -50,23 +50,29 @@ public class ReversiGame extends JFrame {
 		menu = new MainMenu();
 		add(menu);
 		menu.setVisible(false);
-		
+
 		JPanel pan1 = new JPanel();
 		JPanel pan2 = new JPanel();
-		//game = new Game();
-		tile = new Tile();
+		// game = new Game();
+
 		pan1.setLayout(new GridLayout(TILES_PER, TILES_PER, 0, 0));
-		pan1.add(tile);
+		for (int i = 0; i < TILES_PER; i++) {
+			for (int j = 0; j < TILES_PER; j++) {
+				tile = new Tile();
+				pan1.add(tile);
+			}
+		}
+
 		pan2.add(pan1);
 		add(pan2, BorderLayout.SOUTH);
-		//game.setVisible(false);
-//		menu = new MainMenu();
-		//add(menu);
+		// game.setVisible(false);
+		// menu = new MainMenu();
+		// add(menu);
 
 		// Create the container windows that holds the listener objects
-//		Container pane = getContentPane();
-//		GroupLayout gl = new GroupLayout(pane);
-//		pane.setLayout(gl);
+		// Container pane = getContentPane();
+		// GroupLayout gl = new GroupLayout(pane);
+		// pane.setLayout(gl);
 
 		// Set the title/size/position/close operation
 		setTitle("Reversi");
@@ -74,9 +80,7 @@ public class ReversiGame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		
-		
+
 	}
 
 	// method to create the menu bar of the window
@@ -95,24 +99,19 @@ public class ReversiGame extends JFrame {
 
 		// Create a menu called "Game"
 		JMenu gameMenu = new JMenu("Game");
-		gameMenu.setMnemonic(KeyEvent.VK_G); //Set a mnemonic for the game menu "Alt-G"
+		gameMenu.setMnemonic(KeyEvent.VK_G); // Set a mnemonic for the game menu
+												// "Alt-G"
 
-		JMenuItem newGame = new JMenuItem(new MenuItemAction("New", newIcon, 
-				KeyEvent.VK_N));
+		JMenuItem newGame = new JMenuItem(new MenuItemAction("New", newIcon, KeyEvent.VK_N));
 		newGame.setToolTipText("Start a new game");
-		newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
-				ActionEvent.CTRL_MASK));
-		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon,
-				KeyEvent.VK_S));
+		newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));
 		saveGame.setToolTipText("Save the current game");
-		JMenuItem loadGame = new JMenuItem(new MenuItemAction("Load", loadIcon,
-				KeyEvent.VK_L));
+		JMenuItem loadGame = new JMenuItem(new MenuItemAction("Load", loadIcon, KeyEvent.VK_L));
 		loadGame.setToolTipText("Load the last game");
-		JMenuItem exitGame = new JMenuItem(new MenuItemAction("Exit", exitIcon,
-				KeyEvent.VK_E));
+		JMenuItem exitGame = new JMenuItem(new MenuItemAction("Exit", exitIcon, KeyEvent.VK_E));
 		exitGame.setToolTipText("Exit the program");
-		exitGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W,
-				ActionEvent.CTRL_MASK));
+		exitGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
 		JMenu settings = new JMenu("Settings");
 		settings.setToolTipText("Change the game settings");
 		JMenu helpGame = new JMenu("Help");
@@ -139,11 +138,12 @@ public class ReversiGame extends JFrame {
 		setJMenuBar(menuBar);
 	}
 
-	//Create a private inner class to handle the mnemonic and naming of the menu items
-	//This is integral to the windows pane so include it as an inner class
+	// Create a private inner class to handle the mnemonic and naming of the
+	// menu items
+	// This is integral to the windows pane so include it as an inner class
 	private class MenuItemAction extends AbstractAction {
 
-		//Constructor for the MenuItemAction class
+		// Constructor for the MenuItemAction class
 		public MenuItemAction(String text, ImageIcon icon, Integer mnemonic) {
 			super(text);
 
@@ -151,7 +151,7 @@ public class ReversiGame extends JFrame {
 			putValue(MNEMONIC_KEY, mnemonic);
 		}
 
-		//Remove this when the menu items have functionality
+		// Remove this when the menu items have functionality
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
