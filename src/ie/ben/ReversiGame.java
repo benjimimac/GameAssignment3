@@ -1,6 +1,7 @@
 package ie.ben;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -54,17 +55,32 @@ public class ReversiGame extends JFrame {
 		JPanel pan1 = new JPanel();
 		JPanel pan2 = new JPanel();
 		// game = new Game();
-
+		
+		//Set a grid layout
 		pan1.setLayout(new GridLayout(TILES_PER, TILES_PER, 0, 0));
+		
+		//Create the board from individual tile buttons
+		//board is 8 x 8
 		for (int i = 0; i < TILES_PER; i++) {
 			for (int j = 0; j < TILES_PER; j++) {
-				tile = new Tile();
+				if(i == j && (i == 3 || i == 4)) {
+					tile = new Tile(i, j, 1);
+				}else if((i == 3 && j == 4) || (i == 4 && j == 3)) {
+					tile = new Tile(i, j, 0);
+				} else {
+					tile = new Tile();
+				}
+
 				pan1.add(tile);
 			}
 		}
 
+		//setBackground(new Color(9, 22, 66));
+		//pan2.setLayout(new GridLayout(1, 1, 50, 150));
 		pan2.add(pan1);
+		pan2.setBackground(Color.black);
 		add(pan2, BorderLayout.SOUTH);
+		getContentPane().setBackground(Color.black);
 		// game.setVisible(false);
 		// menu = new MainMenu();
 		// add(menu);
@@ -171,6 +187,7 @@ public class ReversiGame extends JFrame {
 			@Override
 			public void run() {
 				ReversiGame game = new ReversiGame();
+				//game.setBackground(new Color(9, 22, 66));
 				game.setVisible(true);
 			}
 		});
