@@ -2,7 +2,6 @@ package ie.ben;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.geom.Ellipse2D;
 
 import javax.swing.JPanel;
 
@@ -22,12 +21,15 @@ public class Piece extends JPanel {
 		this.row = row;
 		this.col = col;
 		this.colour = colour;
+		//System.out.println(colour);
 	}
 	
 	@Override
-	public void paintComponents(Graphics graphic) {
+	public void paintComponent(Graphics graphic) {
 		
-		graphic.setColor(colour);
-		graphic.fillOval(350, 350, 50, 50);
+		super.paintComponent(graphic);
+		
+		graphic.setColor(new Color(255, 0, 0));//colour);
+		graphic.fillOval(50, 50, 50, 50);
 	}
 }

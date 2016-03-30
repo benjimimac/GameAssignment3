@@ -31,6 +31,8 @@ public class ReversiGame extends JFrame {
 	public static final int PIECE_START_X = 63;
 	public static final int PIECE_START_Y = 163;
 	public static int num = 0;
+	
+	public boolean[][] tilesOccupied;
 
 	// Public constructor for the game
 	public ReversiGame() {
@@ -61,14 +63,18 @@ public class ReversiGame extends JFrame {
 		
 		//Create the board from individual tile buttons
 		//board is 8 x 8
+		tilesOccupied = new boolean[TILES_PER][TILES_PER];
 		for (int i = 0; i < TILES_PER; i++) {
 			for (int j = 0; j < TILES_PER; j++) {
 				if(i == j && (i == 3 || i == 4)) {
 					tile = new Tile(i, j, 1);
+					tilesOccupied[i][j] = true;
 				}else if((i == 3 && j == 4) || (i == 4 && j == 3)) {
 					tile = new Tile(i, j, 0);
+					//tilesOccupied[i][j] = true;
 				} else {
-					tile = new Tile();
+					tile = new Tile(i, j);
+					//tilesOccupied[i][j] = false;
 				}
 
 				pan1.add(tile);
@@ -78,9 +84,9 @@ public class ReversiGame extends JFrame {
 		//setBackground(new Color(9, 22, 66));
 		//pan2.setLayout(new GridLayout(1, 1, 50, 150));
 		pan2.add(pan1);
-		pan2.setBackground(Color.black);
+		//pan2.setBackground(Color.black);
 		add(pan2, BorderLayout.SOUTH);
-		getContentPane().setBackground(Color.black);
+		//getContentPane().setBackground(Color.black);
 		// game.setVisible(false);
 		// menu = new MainMenu();
 		// add(menu);
@@ -91,6 +97,7 @@ public class ReversiGame extends JFrame {
 		// pane.setLayout(gl);
 
 		// Set the title/size/position/close operation
+		pan2.setVisible(true);
 		setTitle("Reversi");
 		setSize(700, 900);
 		setResizable(false);

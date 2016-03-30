@@ -14,13 +14,16 @@ public class Tile extends JButton {
 							// them
 							// 0 = black, 1 = white
 	private Piece piece;
+	private int row;
+	private int col;
 
 	// Constructor for empty tiles
-	public Tile() {
-
-		initEmptyTile();
+	public Tile(int row, int col) {
 
 		initUI();
+		
+		initEmptyTile(row, col);
+		
 	}
 
 	// Constructor for tiles that are already occupied
@@ -57,16 +60,20 @@ public class Tile extends JButton {
 		});
 	}
 
-	private void initEmptyTile() {
+	private void initEmptyTile(int row, int col) {
 
 		setOccupied(false);
 		setOccupiedBy(0);
+		setRow(row);
+		setCol(col);
 	}
 
 	private void initOccupiedTile(int occupiedBy, int row, int col) {
 
 		setOccupied(true);
 		setOccupiedBy(occupiedBy);
+		setRow(row);
+		setCol(col);
 
 		if (getOccupiedBy() == 0) {
 			piece = new Piece(row, col, Color.black);
@@ -93,6 +100,22 @@ public class Tile extends JButton {
 	public int getOccupiedBy() {
 		
 		return occupiedBy;
+	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setCol(int col) {
+		this.col = col;
+	}
+	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getCol() {
+		return col;
 	}
 
 }

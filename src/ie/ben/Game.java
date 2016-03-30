@@ -3,7 +3,6 @@ package ie.ben;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Point;
 
