@@ -7,11 +7,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -23,6 +25,7 @@ public class ReversiGame extends JFrame {
 	MainMenu menu;
 	// Game game;
 	Tile tile;
+	ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
 	public static final int TILE_SIZE = 75;
 	public static final int TILES_PER = 8;
 	public static final int BOARD_START_X = 50;
@@ -55,6 +58,7 @@ public class ReversiGame extends JFrame {
 		menu.setVisible(false);
 
 		JPanel pan1 = new JPanel();
+		//JLayeredPane pan2 = new JLayeredPane();
 		JPanel pan2 = new JPanel();
 		// game = new Game();
 		
@@ -65,6 +69,7 @@ public class ReversiGame extends JFrame {
 		//board is 8 x 8
 		tilesOccupied = new boolean[TILES_PER][TILES_PER];
 		for (int i = 0; i < TILES_PER; i++) {
+			tiles.add(new ArrayList<Tile>());
 			for (int j = 0; j < TILES_PER; j++) {
 				if(i == j && (i == 3 || i == 4)) {
 					tile = new Tile(i, j, 1);
@@ -77,13 +82,23 @@ public class ReversiGame extends JFrame {
 					//tilesOccupied[i][j] = false;
 				}
 
-				pan1.add(tile);
+				pan1.add(tile, new Integer(1));
+				tiles.get(i).add(tile);
+				
+//				if(i == 4 && j == 4) {
+//					Piece test = new Piece(0, 0, Color.red);
+//					pan1.add(test, new Integer(2));
+//				}
 			}
 		}
-
+		
+		
+		
 		//setBackground(new Color(9, 22, 66));
 		//pan2.setLayout(new GridLayout(1, 1, 50, 150));
 		pan2.add(pan1);
+		Piece test = new Piece(0, 0, Color.red);
+		add(test);
 		//pan2.setBackground(Color.black);
 		add(pan2, BorderLayout.SOUTH);
 		//getContentPane().setBackground(Color.black);
@@ -97,12 +112,21 @@ public class ReversiGame extends JFrame {
 		// pane.setLayout(gl);
 
 		// Set the title/size/position/close operation
+		
+		
 		pan2.setVisible(true);
+		
+//		Tile tileTest = new Tile(1, 1, 1);
+//		add(tileTest);
+		
 		setTitle("Reversi");
 		setSize(700, 900);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		
+		
 
 	}
 
