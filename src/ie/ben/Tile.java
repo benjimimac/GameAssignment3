@@ -64,7 +64,16 @@ public class Tile extends JPanel {
 			public void mouseExited(MouseEvent mouseEvent) {
 				setBackground(new Color(0, 123, 0));
 			}
+			
+			@Override
+			public void mousePressed(MouseEvent moouseEvent) {
+				setOccupied(true);
+				setBackground(new Color(0, 123, 0));
+				repaint();
+			}
 		});
+		
+		
 	}
 
 	private void initEmptyTile(int row, int col) {
