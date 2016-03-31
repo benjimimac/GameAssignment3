@@ -97,9 +97,9 @@ public class ReversiGame extends JFrame {
 		//setBackground(new Color(9, 22, 66));
 		//pan2.setLayout(new GridLayout(1, 1, 50, 150));
 		pan2.add(pan1);
-		Piece test = new Piece(0, 0, Color.red);
-		add(test);
-		//pan2.setBackground(Color.black);
+//		Piece test = new Piece(0, 0, Color.red);
+//		add(test);
+		pan2.setBackground(Color.black);
 		add(pan2, BorderLayout.SOUTH);
 		//getContentPane().setBackground(Color.black);
 		// game.setVisible(false);

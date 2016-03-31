@@ -24,16 +24,16 @@ public class Tile extends JPanel {
 	public Tile(int row, int col) {
 
 		initUI();
-		
+
 		initEmptyTile(row, col);
-		
+
 	}
 
 	// Constructor for tiles that are already occupied
 	public Tile(int row, int col, int occupiedBy) {
 
 		initUI();
-		
+
 		initOccupiedTile(occupiedBy, row, col);
 	}
 
@@ -52,11 +52,12 @@ public class Tile extends JPanel {
 
 					setBackground(new Color(135, 206, 250));
 					System.out.println("Not occupied");
-				} else {
-
-					setBackground(new Color(200, 0, 0));
-					System.out.println("Occupied");
 				}
+//				} else {
+//
+//					setBackground(new Color(200, 0, 0));
+//					System.out.println("Occupied");
+//				}
 			}
 
 			@Override
@@ -72,11 +73,9 @@ public class Tile extends JPanel {
 		setOccupiedBy(0);
 		setRow(row);
 		setCol(col);
-		
-		
-		
-//		piece = new Piece(row, col, Color.black);
-//		add(piece);
+
+		// piece = new Piece(row, col, Color.black);
+		// add(piece);
 	}
 
 	private void initOccupiedTile(int occupiedBy, int row, int col) {
@@ -85,17 +84,17 @@ public class Tile extends JPanel {
 		setOccupiedBy(occupiedBy);
 		setRow(row);
 		setCol(col);
-		
+
 		setPreferredSize(new Dimension(50, 50));
 
-		if (getOccupiedBy() == 0) {
-			piece = new Piece(row, col, Color.black);
-		} else {
-			piece = new Piece(row, col, Color.white);
-		}
-		
-		this.add(piece);
-		setComponentZOrder(piece, 0);
+		// if (getOccupiedBy() == 0) {
+		// piece = new Piece(row, col, Color.black);
+		// } else {
+		// piece = new Piece(row, col, Color.white);
+		// }
+		//
+		// this.add(piece);
+		// setComponentZOrder(piece, 0);
 	}
 
 	public void setOccupied(boolean occupied) {
@@ -112,46 +111,56 @@ public class Tile extends JPanel {
 
 		return occupied;
 	}
-	
+
 	public int getOccupiedBy() {
-		
+
 		return occupiedBy;
 	}
-	
+
 	public void setRow(int row) {
 		this.row = row;
 	}
-	
+
 	public void setCol(int col) {
 		this.col = col;
 	}
-	
+
 	public int getRow() {
 		return row;
 	}
-	
+
 	public int getCol() {
 		return col;
 	}
-	
+
 	@Override
 	public void paintComponent(Graphics graphic) {
-		
-		//BufferedImage img = new BufferedImage(50, 50, BufferedImage.TYPE_INT_RGB);
-		//graphic = img.getGraphics();
-		
+
+		// BufferedImage img = new BufferedImage(50, 50,
+		// BufferedImage.TYPE_INT_RGB);
+		// graphic = img.getGraphics();
+
 		super.paintComponent(graphic);
-		
+
 		Graphics2D graphic2D = (Graphics2D) graphic;
-		
-		graphic2D.setColor(new Color(0, 0, 0));//colour);
-		graphic2D.fillRect(25, 25, 10, 10);
-//		Piece piece = new Piece(1, 1, Color.black);
-//		add(piece);
-		
-		
-		
-		//ImageIcon icon = new ImageIcon(img);
+
+		Dimension size = this.getSize();
+		// System.out.println(size.width);
+
+		if (occupied) {
+			if (occupiedBy == 0) {
+				graphic2D.setColor(new Color(0, 0, 0));// colour);
+			} else {
+				graphic2D.setColor(new Color(255, 255, 255));// colour);
+			}
+			graphic2D.fillOval((size.width / 2) - (ReversiGame.PIECE_SIZE / 2),
+					size.height / 2 - (ReversiGame.PIECE_SIZE / 2), ReversiGame.PIECE_SIZE, ReversiGame.PIECE_SIZE);
+
+		}
+		// Piece piece = new Piece(1, 1, Color.black);
+		// add(piece);
+
+		// ImageIcon icon = new ImageIcon(img);
 	}
 
 }
