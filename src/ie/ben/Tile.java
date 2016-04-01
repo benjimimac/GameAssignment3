@@ -16,7 +16,7 @@ public class Tile extends JPanel {
 	private int occupiedBy; // Each tile should know what colour piece occupies
 							// them
 							// 0 = black, 1 = white
-	private Piece piece;
+	//private Piece piece;
 	private int row;
 	private int col;
 
@@ -51,7 +51,7 @@ public class Tile extends JPanel {
 				if (!isOccupied()) {
 
 					setBackground(new Color(135, 206, 250));
-					System.out.println("Not occupied");
+					//System.out.println("Not occupied");
 				}
 //				} else {
 //
