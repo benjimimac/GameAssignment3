@@ -34,11 +34,11 @@ public class ReversiGame extends JFrame {
 	public static final int PIECE_START_X = 63;
 	public static final int PIECE_START_Y = 163;
 	public static int num = 0;
-	
+
 	private boolean gameLoaded = false;;
-	
-//	private JPanel boardPanel;
-//	private JPanel pan1;
+
+	private JPanel boardPanel;
+	// private JPanel pan1;
 
 	// public boolean[][] tilesOccupied;
 
@@ -60,10 +60,8 @@ public class ReversiGame extends JFrame {
 		createMenuBar();
 		menu = new MainMenu();
 		add(menu);
-		//menu.setVisible(false);
+		// menu.setVisible(false);
 
-		
-		
 		// Tile tileTest = new Tile(1, 1, 1);
 		// add(tileTest);
 
@@ -98,17 +96,17 @@ public class ReversiGame extends JFrame {
 		newGame.setToolTipText("Start a new game");
 		newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		newGame.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent newGameEvent) {
-				//Hide the main menu and start the game				
+				// Hide the main menu and start the game
 				menu.setVisible(false);
-				
+
 				// Call the createBoard method
 				createBoard();
-				//boardPanel.setVisible(false);
-				
-				//boardPanel.setVisible(true);
+				// boardPanel.setVisible(false);
+
+				// boardPanel.setVisible(true);
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));
@@ -145,26 +143,30 @@ public class ReversiGame extends JFrame {
 	}
 
 	private void createBoard() {
-JPanel pan1 = new JPanel();
-JPanel boardPanel = new JPanel();
-		if(gameLoaded) {
-			removeAll();
-//			pan1.removeAll();
-//			pan1.updateUI();
-//			boardPanel.removeAll();
-//			boardPanel.updateUI();
-//			boardPanel.repaint();
-//			boardPanel.add(pan1);
-//			boardPanel.repaint();
-//			remove(boardPanel);
-//			repaint();
+
+		if (gameLoaded) {
+			remove(this.boardPanel);
+			revalidate();
+			repaint();
+			// removeAll();
+			// pan1.removeAll();
+			// pan1.updateUI();
+			// boardPanel.removeAll();
+			// boardPanel.updateUI();
+			// boardPanel.repaint();
+			// boardPanel.add(pan1);
+			// boardPanel.repaint();
+			// remove(boardPanel);
+			// repaint();
 			System.out.println("if statement");
 		}
-		//pan1 = new JPanel();
-		
-		
+
+		JPanel pan1 = new JPanel();
+		boardPanel = new JPanel();
+		// pan1 = new JPanel();
+
 		// JLayeredPane pan2 = new JLayeredPane();
-		//boardPanel = new JPanel();
+		// boardPanel = new JPanel();
 		// game = new Game();
 
 		// Set a grid layout
@@ -172,7 +174,7 @@ JPanel boardPanel = new JPanel();
 
 		// Create the board from individual tile buttons
 		// board is 8 x 8
-		//tilesOccupied = new boolean[TILES_PER][TILES_PER];
+		// tilesOccupied = new boolean[TILES_PER][TILES_PER];
 		tiles = new ArrayList<ArrayList<Tile>>();
 		for (int i = 0; i < TILES_PER; i++) {
 			tiles.add(new ArrayList<Tile>());
@@ -198,7 +200,6 @@ JPanel boardPanel = new JPanel();
 			}
 		}
 
-		
 		// setBackground(new Color(9, 22, 66));
 		// pan2.setLayout(new GridLayout(1, 1, 50, 150));
 		boardPanel.add(pan1);
@@ -206,7 +207,7 @@ JPanel boardPanel = new JPanel();
 		// add(test);
 		boardPanel.setBackground(new Color(9, 22, 66));
 		add(boardPanel, BorderLayout.SOUTH);
-		 getContentPane().setBackground(new Color(9, 22, 66));
+		getContentPane().setBackground(new Color(9, 22, 66));
 		// game.setVisible(false);
 		// menu = new MainMenu();
 		// add(menu);
@@ -217,12 +218,12 @@ JPanel boardPanel = new JPanel();
 		// pane.setLayout(gl);
 
 		// Set the title/size/position/close operation
-		
-		 //boardPanel.repaint();
-		 
-		 gameLoaded = true;
 
-		
+		// boardPanel.repaint();
+		revalidate();
+		repaint();
+		gameLoaded = true;
+
 	}
 
 	// Create a private inner class to handle the mnemonic and naming of the
