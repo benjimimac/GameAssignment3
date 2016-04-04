@@ -47,6 +47,7 @@ public class PlayerObject {
 		this.pieceCount = pieceCount;
 	}
 
+	//First initialisation method for a new game
 	private void initPlayer(int player) {
 		
 		setPlayerColour(player);
@@ -55,6 +56,7 @@ public class PlayerObject {
 		setPieceCount(2);
 	}
 
+	//The second initialisation method for a saved game
 	private void initPlayer(int player, int pieceCount) {
 
 		setPlayerColour(player);
@@ -69,5 +71,7 @@ public class PlayerObject {
 		} else {
 			setColour(Color.white);
 		}
+		
+		System.out.println("player colour is : " + colour);
 	}
 }

@@ -40,7 +40,7 @@ public class Tile extends JPanel {
 	private void initUI() {
 		setPreferredSize(new Dimension(75, 75));
 		setBackground(new Color(0, 123, 0));
-		this.setBorder(BorderFactory.createEtchedBorder());
+		this.setBorder(BorderFactory.createEtchedBorder(1, Color.white, Color.black));
 
 		addMouseListener(new MouseAdapter() {
 

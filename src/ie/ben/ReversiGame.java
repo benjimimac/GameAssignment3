@@ -2,6 +2,7 @@ package ie.ben;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -10,10 +11,11 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLayeredPane;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -21,6 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 public class ReversiGame extends JFrame {
+
+	private final int WINDOW_WIDTH = 700;
+	private final int WINDOW_HEIGHT = 900;
 
 	MainMenu menu;
 	// Game game;
@@ -38,6 +43,13 @@ public class ReversiGame extends JFrame {
 	private boolean gameLoaded = false;;
 
 	private JPanel boardPanel;
+	
+	//The default is 0 (black)
+	public int player = 0;
+	
+	public HumanPlayer player1;
+	public AIPlayer player2;
+	
 	// private JPanel pan1;
 
 	// public boolean[][] tilesOccupied;
@@ -66,7 +78,7 @@ public class ReversiGame extends JFrame {
 		// add(tileTest);
 
 		setTitle("Reversi");
-		setSize(700, 900);
+		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -101,6 +113,13 @@ public class ReversiGame extends JFrame {
 			public void actionPerformed(ActionEvent newGameEvent) {
 				// Hide the main menu and start the game
 				menu.setVisible(false);
+
+				//Create the player objects
+				player1 = new HumanPlayer(player);
+				player2 = new AIPlayer((player + 1) % 2);
+				
+				// Create the text areas for each player
+				createTextArea();
 
 				// Call the createBoard method
 				createBoard();
@@ -205,9 +224,9 @@ public class ReversiGame extends JFrame {
 		boardPanel.add(pan1);
 		// Piece test = new Piece(0, 0, Color.red);
 		// add(test);
-		boardPanel.setBackground(new Color(9, 22, 66));
+		boardPanel.setBackground(new Color(127, 127, 127));
 		add(boardPanel, BorderLayout.SOUTH);
-		getContentPane().setBackground(new Color(9, 22, 66));
+		//getContentPane().setBackground(new Color(9, 22, 66));
 		// game.setVisible(false);
 		// menu = new MainMenu();
 		// add(menu);
@@ -224,6 +243,41 @@ public class ReversiGame extends JFrame {
 		repaint();
 		gameLoaded = true;
 
+	}
+
+	private void createTextArea() {
+
+		// In a for loop add two text areas that will show both players progress
+		for (int i = 0; i < 2; i++) {
+
+			// Create a JPanel that will contain the JLabel and set its
+			// preferences
+			JPanel panel1 = new JPanel();
+			panel1.setBackground(new Color(41, 41, 41));
+			panel1.setPreferredSize(new Dimension(WINDOW_WIDTH / 2, 200));
+			panel1.setBorder(BorderFactory.createEtchedBorder(20, Color.white, Color.white));
+
+			// Add the JLabel
+			JLabel label1 = new JLabel("Some Text For Label " + (i + 1)); // Player
+																			// details
+																			// will
+																			// go
+																			// here
+			label1.setLayout(new BorderLayout());
+			label1.setForeground(Color.white);
+
+			// Add the JLabel to the JPanel
+			panel1.add(label1);
+
+			// Position the JPanels appropriately
+			if (i == 0) {
+
+				add(panel1, BorderLayout.LINE_START);
+			} else {
+
+				add(panel1, BorderLayout.LINE_END);
+			}
+		}
 	}
 
 	// Create a private inner class to handle the mnemonic and naming of the
