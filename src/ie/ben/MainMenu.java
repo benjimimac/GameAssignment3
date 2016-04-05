@@ -65,7 +65,7 @@ public class MainMenu extends JPanel {
 		menuWidth = size.width - insets.left - insets.right - 1;
 		menuHeight = size.height - insets.top - insets.bottom - 1;
 
-		System.out.println(getInsets().top + ", " + getSize().width + ", " + menuWidth);
+//		System.out.println(getInsets().top + ", " + getSize().width + ", " + menuWidth);
 		graphic.setColor(new Color(9, 22, 66));
 		graphic.fillRect(0, 0, size.width, size.height);
 
@@ -90,7 +90,7 @@ public class MainMenu extends JPanel {
 		for (int i = 0; i <= ReversiGame.TILES_PER - 1; i++) {
 			for (int j = 0; j <= ReversiGame.TILES_PER - 1; j++) {
 
-				System.out.println(ReversiGame.num++);
+//				System.out.println(ReversiGame.num++);
 				if (i == j) {
 					graphic.setColor(new Color(255, 255, 255));
 					graphic.fillOval(ReversiGame.PIECE_START_X + (ReversiGame.TILE_SIZE * j),

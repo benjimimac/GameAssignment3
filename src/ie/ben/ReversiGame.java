@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -30,7 +32,8 @@ public class ReversiGame extends JFrame {
 	MainMenu menu;
 	// Game game;
 	Tile tile;
-	ArrayList<ArrayList<Tile>> tiles;
+	// ArrayList<ArrayList<Tile>> tiles;
+	public static Tile[][] tiles;
 	public static final int TILE_SIZE = 75;
 	public static final int TILES_PER = 8;
 	public static final int BOARD_START_X = 50;
@@ -43,13 +46,14 @@ public class ReversiGame extends JFrame {
 	private boolean gameLoaded = false;;
 
 	private JPanel boardPanel;
-	
-	//The default is 0 (black)
+
+	// The default is 0 (black)
 	public int player = 0;
-	
+
 	public HumanPlayer player1;
 	public AIPlayer player2;
-	
+	ArrayList<PlayerObject> players;// = new ArrayList<PlayerObject>();
+
 	// private JPanel pan1;
 
 	// public boolean[][] tilesOccupied;
@@ -114,10 +118,14 @@ public class ReversiGame extends JFrame {
 				// Hide the main menu and start the game
 				menu.setVisible(false);
 
-				//Create the player objects
+				// Create the player objects and add them to the players
+				// ArrayList
 				player1 = new HumanPlayer(player);
 				player2 = new AIPlayer((player + 1) % 2);
-				
+				players = new ArrayList<PlayerObject>();
+				players.add(player1);
+				players.add(player2);
+
 				// Create the text areas for each player
 				createTextArea();
 
@@ -126,6 +134,10 @@ public class ReversiGame extends JFrame {
 				// boardPanel.setVisible(false);
 
 				// boardPanel.setVisible(true);
+				
+				GameEngine test = new GameEngine();
+				test.setOccupied();
+				System.out.println(test.occupiedTiles.size());
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));
@@ -177,7 +189,7 @@ public class ReversiGame extends JFrame {
 			// boardPanel.repaint();
 			// remove(boardPanel);
 			// repaint();
-			System.out.println("if statement");
+			// System.out.println("if statement");
 		}
 
 		JPanel pan1 = new JPanel();
@@ -194,24 +206,26 @@ public class ReversiGame extends JFrame {
 		// Create the board from individual tile buttons
 		// board is 8 x 8
 		// tilesOccupied = new boolean[TILES_PER][TILES_PER];
-		tiles = new ArrayList<ArrayList<Tile>>();
+		// tiles = new ArrayList<ArrayList<Tile>>();
+		tiles = new Tile[TILES_PER][TILES_PER];
 		for (int i = 0; i < TILES_PER; i++) {
-			tiles.add(new ArrayList<Tile>());
+			// tiles.add(new ArrayList<Tile>());
 			for (int j = 0; j < TILES_PER; j++) {
 				if (i == j && (i == 3 || i == 4)) {
-					tile = new Tile(i, j, 1);
+					tile = new Tile(new Point(i, j), 1);
 					// tilesOccupied[i][j] = true;
 				} else if ((i == 3 && j == 4) || (i == 4 && j == 3)) {
-					tile = new Tile(i, j, 0);
+					tile = new Tile(new Point(i, j), 0);
 					// tilesOccupied[i][j] = true;
 				} else {
-					tile = new Tile(i, j);
+					tile = new Tile(new Point(i, j));
 					// tilesOccupied[i][j] = false;
 				}
 
 				pan1.add(tile, new Integer(1));
-				tiles.get(i).add(tile);
-				System.out.println("added tile");
+				// tiles.get(i).add(tile);
+				tiles[i][j] = tile;
+				// System.out.println("added tile");
 				// if(i == 4 && j == 4) {
 				// Piece test = new Piece(0, 0, Color.red);
 				// pan1.add(test, new Integer(2));
@@ -226,7 +240,7 @@ public class ReversiGame extends JFrame {
 		// add(test);
 		boardPanel.setBackground(new Color(127, 127, 127));
 		add(boardPanel, BorderLayout.SOUTH);
-		//getContentPane().setBackground(new Color(9, 22, 66));
+		// getContentPane().setBackground(new Color(9, 22, 66));
 		// game.setVisible(false);
 		// menu = new MainMenu();
 		// add(menu);
@@ -247,8 +261,10 @@ public class ReversiGame extends JFrame {
 
 	private void createTextArea() {
 
+		int playerNum = 1;
+
 		// In a for loop add two text areas that will show both players progress
-		for (int i = 0; i < 2; i++) {
+		for (PlayerObject player : players) {
 
 			// Create a JPanel that will contain the JLabel and set its
 			// preferences
@@ -258,11 +274,13 @@ public class ReversiGame extends JFrame {
 			panel1.setBorder(BorderFactory.createEtchedBorder(20, Color.white, Color.white));
 
 			// Add the JLabel
-			JLabel label1 = new JLabel("Some Text For Label " + (i + 1)); // Player
-																			// details
-																			// will
-																			// go
-																			// here
+			JLabel label1 = new JLabel(
+					"<html>Player: " + playerNum + "<br>PieceCount: " + player.pieceCount + "</html>"); // Player
+			// details
+			// will
+			// go
+			// here
+			label1.setFont(new Font("Serif", Font.BOLD, 19));
 			label1.setLayout(new BorderLayout());
 			label1.setForeground(Color.white);
 
@@ -270,13 +288,16 @@ public class ReversiGame extends JFrame {
 			panel1.add(label1);
 
 			// Position the JPanels appropriately
-			if (i == 0) {
+			if (playerNum == 1) {
 
 				add(panel1, BorderLayout.LINE_START);
 			} else {
 
 				add(panel1, BorderLayout.LINE_END);
 			}
+
+			// Increment playerNum
+			playerNum++;
 		}
 	}
 

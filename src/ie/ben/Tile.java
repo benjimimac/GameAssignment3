@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -19,22 +20,25 @@ public class Tile extends JPanel {
 	//private Piece piece;
 	private int row;
 	private int col;
+	private Point location;
+	
+	private boolean[] neighbours;
 
 	// Constructor for empty tiles
-	public Tile(int row, int col) {
+	public Tile(Point location) {
 
 		initUI();
 
-		initEmptyTile(row, col);
+		initEmptyTile(location);
 
 	}
 
 	// Constructor for tiles that are already occupied
-	public Tile(int row, int col, int occupiedBy) {
+	public Tile(Point location, int occupiedBy) {
 
 		initUI();
 
-		initOccupiedTile(occupiedBy, row, col);
+		initOccupiedTile(location, occupiedBy);
 	}
 
 	private void initUI() {
@@ -76,23 +80,21 @@ public class Tile extends JPanel {
 		
 	}
 
-	private void initEmptyTile(int row, int col) {
+	private void initEmptyTile(Point location) {
 
 		setOccupied(false);
 		setOccupiedBy(0);
-		setRow(row);
-		setCol(col);
+		setLocation(location);
 
 		// piece = new Piece(row, col, Color.black);
 		// add(piece);
 	}
 
-	private void initOccupiedTile(int occupiedBy, int row, int col) {
+	private void initOccupiedTile(Point location, int occupiedBy) {
 
 		setOccupied(true);
 		setOccupiedBy(occupiedBy);
-		setRow(row);
-		setCol(col);
+		setLocation(location);
 
 		setPreferredSize(new Dimension(50, 50));
 
@@ -105,6 +107,14 @@ public class Tile extends JPanel {
 		// this.add(piece);
 		// setComponentZOrder(piece, 0);
 	}
+	
+	public void initNeighbours() {
+		
+		//Every tile should know if there neighbours are occupied
+		neighbours = new boolean[ReversiGame.TILES_PER];
+	}
+	
+	
 
 	public void setOccupied(boolean occupied) {
 
@@ -126,21 +136,31 @@ public class Tile extends JPanel {
 		return occupiedBy;
 	}
 
-	public void setRow(int row) {
-		this.row = row;
+//	public void setRow(int row) {
+//		this.row = row;
+//	}
+//
+//	public void setCol(int col) {
+//		this.col = col;
+//	}
+	
+	public void setLocation(Point location) {
+		
+		this.location = location;
+	}
+	
+	public Point getLocation() {
+		
+		return location;
 	}
 
-	public void setCol(int col) {
-		this.col = col;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public int getCol() {
-		return col;
-	}
+//	public int getRow() {
+//		return row;
+//	}
+//
+//	public int getCol() {
+//		return col;
+//	}
 
 	@Override
 	public void paintComponent(Graphics graphic) {
