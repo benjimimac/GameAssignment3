@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class GameEngine {
 	
-	public ArrayList<Point> occupiedTiles;
+	public ArrayList<Point> occupiedTiles; //Store updated occupied tiles here
 	public ArrayList<Point> adjacentTiles;
 	
 //	public GameEngine() {
@@ -28,6 +28,7 @@ public class GameEngine {
 			for(int j = 0; j < ReversiGame.TILES_PER; j++) {
 				if(ReversiGame.tiles[i][j].isOccupied()) {
 					occupiedTiles.add(ReversiGame.tiles[i][j].getLocation());
+					System.out.println(ReversiGame.tiles[i][j].getLocation());
 				}
 			}
 		}

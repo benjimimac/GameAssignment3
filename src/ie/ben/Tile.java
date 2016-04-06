@@ -17,12 +17,12 @@ public class Tile extends JPanel {
 	private int occupiedBy; // Each tile should know what colour piece occupies
 							// them
 							// 0 = black, 1 = white
-	//private Piece piece;
+	// private Piece piece;
 	private int row;
 	private int col;
 	private Point location;
-	
-	private boolean[] neighbours;
+
+	boolean[] occupiedNeighbours;
 
 	// Constructor for empty tiles
 	public Tile(Point location) {
@@ -55,20 +55,20 @@ public class Tile extends JPanel {
 				if (!isOccupied()) {
 
 					setBackground(new Color(135, 206, 250));
-					//System.out.println("Not occupied");
+					// System.out.println("Not occupied");
 				}
-//				} else {
-//
-//					setBackground(new Color(200, 0, 0));
-//					System.out.println("Occupied");
-//				}
+				// } else {
+				//
+				// setBackground(new Color(200, 0, 0));
+				// System.out.println("Occupied");
+				// }
 			}
 
 			@Override
 			public void mouseExited(MouseEvent mouseEvent) {
 				setBackground(new Color(0, 123, 0));
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent moouseEvent) {
 				setOccupied(true);
@@ -76,8 +76,7 @@ public class Tile extends JPanel {
 				repaint();
 			}
 		});
-		
-		
+
 	}
 
 	private void initEmptyTile(Point location) {
@@ -86,6 +85,9 @@ public class Tile extends JPanel {
 		setOccupiedBy(0);
 		setLocation(location);
 
+		// Initialise the nneighbours boolean array
+		initNeighbours();
+		
 		// piece = new Piece(row, col, Color.black);
 		// add(piece);
 	}
@@ -98,6 +100,9 @@ public class Tile extends JPanel {
 
 		setPreferredSize(new Dimension(50, 50));
 
+		// Initialise the nneighbours boolean array
+		initNeighbours();
+
 		// if (getOccupiedBy() == 0) {
 		// piece = new Piece(row, col, Color.black);
 		// } else {
@@ -107,14 +112,60 @@ public class Tile extends JPanel {
 		// this.add(piece);
 		// setComponentZOrder(piece, 0);
 	}
-	
+
 	public void initNeighbours() {
-		
-		//Every tile should know if there neighbours are occupied
-		neighbours = new boolean[ReversiGame.TILES_PER];
+
+		// Every tile should know if there neighbours are occupied - default is
+		// false
+		occupiedNeighbours = new boolean[ReversiGame.TILES_PER];
+
+		// Avoid an index out of bounds exception
+		// if(location.x != 0) {//If not the top row
+		// setOccupiedNeighbour(0, ReversiGame.tiles[location.x][location.y -
+		// 1].isOccupied());
+		// }
 	}
 	
+	public void setOccupiedNeighbours() {
 	
+		//create an index variable to access the occupiedNeighbours array
+		int index = 0;
+		
+		//Loop through the tiles surrounding the current tile and check if occupied
+		for(int row = location.x - 1; row <= location.x + 1; row++) {
+			
+			for(int col = location.y - 1; col <= location.y + 1; col++) {
+				
+				//If row is less than 0 or greater than 7 we are out of bounds - break from inner loop
+				if(row < 0 || row > 7) {
+					
+					index += 3;
+					break;
+				}
+				
+				//If col is less than 0 or greater than 7 we are also out of bounds - continue to next iteration
+				if(col < 0 || col > 7) {
+					
+					index++;
+					continue;
+				}
+				
+				//No need to check its own cell - continue to next iteration
+				if(location.equals(new Point(row, col))) { continue; }
+				
+				//Check if the tile is occupied - if true set index to true
+				if(ReversiGame.tiles[row][col].isOccupied()) { setOccupiedNeighbour(index); }
+				
+				index++;
+			}
+		}
+	}
+
+	public void setOccupiedNeighbour(int index) {
+
+		// Set the value of occupiedNeghbours at a given index to true
+		occupiedNeighbours[index] = true;
+	}
 
 	public void setOccupied(boolean occupied) {
 
@@ -136,31 +187,31 @@ public class Tile extends JPanel {
 		return occupiedBy;
 	}
 
-//	public void setRow(int row) {
-//		this.row = row;
-//	}
-//
-//	public void setCol(int col) {
-//		this.col = col;
-//	}
-	
+	// public void setRow(int row) {
+	// this.row = row;
+	// }
+	//
+	// public void setCol(int col) {
+	// this.col = col;
+	// }
+
 	public void setLocation(Point location) {
-		
+
 		this.location = location;
 	}
-	
+
 	public Point getLocation() {
-		
+
 		return location;
 	}
 
-//	public int getRow() {
-//		return row;
-//	}
-//
-//	public int getCol() {
-//		return col;
-//	}
+	// public int getRow() {
+	// return row;
+	// }
+	//
+	// public int getCol() {
+	// return col;
+	// }
 
 	@Override
 	public void paintComponent(Graphics graphic) {

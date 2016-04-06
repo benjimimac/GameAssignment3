@@ -208,29 +208,52 @@ public class ReversiGame extends JFrame {
 		// tilesOccupied = new boolean[TILES_PER][TILES_PER];
 		// tiles = new ArrayList<ArrayList<Tile>>();
 		tiles = new Tile[TILES_PER][TILES_PER];
-		for (int i = 0; i < TILES_PER; i++) {
+		
+		//Create the tiles objects and add them to the tiles 2D array
+		for (int row = 0; row < TILES_PER; row++) {
+			
 			// tiles.add(new ArrayList<Tile>());
-			for (int j = 0; j < TILES_PER; j++) {
-				if (i == j && (i == 3 || i == 4)) {
-					tile = new Tile(new Point(i, j), 1);
+			for (int col = 0; col < TILES_PER; col++) {
+				
+				if (row == col && (row == 3 || row == 4)) {
+					
+					tile = new Tile(new Point(row, col), 1);
 					// tilesOccupied[i][j] = true;
-				} else if ((i == 3 && j == 4) || (i == 4 && j == 3)) {
-					tile = new Tile(new Point(i, j), 0);
+				} else if ((row == 3 && col == 4) || (row == 4 && col == 3)) {
+					
+					tile = new Tile(new Point(row, col), 0);
 					// tilesOccupied[i][j] = true;
 				} else {
-					tile = new Tile(new Point(i, j));
+					
+					tile = new Tile(new Point(row, col));
 					// tilesOccupied[i][j] = false;
 				}
 
 				pan1.add(tile, new Integer(1));
 				// tiles.get(i).add(tile);
-				tiles[i][j] = tile;
+				
+				tiles[row][col] = tile;
 				// System.out.println("added tile");
 				// if(i == 4 && j == 4) {
 				// Piece test = new Piece(0, 0, Color.red);
 				// pan1.add(test, new Integer(2));
 				// }
 			}
+		}
+		
+		//Set each tiles boolean array occupiedNeighbours to true or false
+		for(int row = 0; row < tiles.length; row++) {
+			
+			for( int col = 0; col < tiles[row].length; col++) {
+				
+				//Call the setOccupiedNeighbours method on every tile object
+				tiles[row][col].setOccupiedNeighbours();
+			}
+		}
+		
+		for(int i = 0; i < 8; i++) {
+			
+			System.out.println(tiles[3][3].occupiedNeighbours[i]);
 		}
 
 		// setBackground(new Color(9, 22, 66));
