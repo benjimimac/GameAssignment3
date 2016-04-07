@@ -52,7 +52,7 @@ public class Tile extends JPanel {
 			public void mouseEntered(MouseEvent mouseEvent) {
 				// Use an if else statement her to change to different
 				// colours depending on legal moves.
-				if (!isOccupied()) {
+				if (checkPotentialMoves()) { // !isOccupied()) {
 
 					setBackground(new Color(135, 206, 250));
 					// System.out.println("Not occupied");
@@ -71,9 +71,18 @@ public class Tile extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent moouseEvent) {
-				setOccupied(true);
-				setBackground(new Color(0, 123, 0));
-				repaint();
+				if (checkPotentialMoves()) {
+					setOccupied(true);
+					setBackground(new Color(0, 123, 0));
+					removeTile();
+					addNeighbours();
+					repaint();
+					
+					System.out.println("Current potential moves are :");
+					for (int i = 0; i < GameEngine.potentialMoves.size(); i++) {
+						System.out.println(GameEngine.potentialMoves.get(i).getLocation());
+					}
+				}
 			}
 		});
 
@@ -87,7 +96,7 @@ public class Tile extends JPanel {
 
 		// Initialise the nneighbours boolean array
 		initNeighbours();
-		
+
 		// piece = new Piece(row, col, Color.black);
 		// add(piece);
 	}
@@ -125,40 +134,89 @@ public class Tile extends JPanel {
 		// 1].isOccupied());
 		// }
 	}
-	
+
+	// Each tile should know if their neighbours are occupied or not
 	public void setOccupiedNeighbours() {
-	
-		//create an index variable to access the occupiedNeighbours array
+
+		// create an index variable to access the occupiedNeighbours array
 		int index = 0;
-		
-		//Loop through the tiles surrounding the current tile and check if occupied
-		for(int row = location.x - 1; row <= location.x + 1; row++) {
-			
-			for(int col = location.y - 1; col <= location.y + 1; col++) {
-				
-				//If row is less than 0 or greater than 7 we are out of bounds - break from inner loop
-				if(row < 0 || row > 7) {
-					
+
+		// Loop through the tiles surrounding the current tile and check if
+		// occupied
+		for (int row = location.x - 1; row <= location.x + 1; row++) {
+
+			for (int col = location.y - 1; col <= location.y + 1; col++) {
+
+				// If row is less than 0 or greater than 7 we are out of bounds
+				// - break from inner loop
+				if (row < 0 || row > 7) {
+
 					index += 3;
 					break;
 				}
-				
-				//If col is less than 0 or greater than 7 we are also out of bounds - continue to next iteration
-				if(col < 0 || col > 7) {
-					
+
+				// If col is less than 0 or greater than 7 we are also out of
+				// bounds - continue to next iteration
+				if (col < 0 || col > 7) {
+
 					index++;
 					continue;
 				}
-				
-				//No need to check its own cell - continue to next iteration
-				if(location.equals(new Point(row, col))) { continue; }
-				
-				//Check if the tile is occupied - if true set index to true
-				if(ReversiGame.tiles[row][col].isOccupied()) { setOccupiedNeighbour(index); }
-				
+
+				// No need to check its own cell - continue to next iteration
+				if (location.equals(new Point(row, col))) {
+					continue;
+				}
+
+				// Check if the tile is occupied - if true set index to true
+				if (ReversiGame.tiles[row][col].isOccupied()) {
+					setOccupiedNeighbour(index);
+				}
+
 				index++;
 			}
 		}
+	}
+
+	// Checks is the tile is a candidate for a potential move
+	public boolean isPotentialMove() {
+
+		// If tile is already occupied return false immediately
+		if (isOccupied()) {
+
+			return false;
+		}
+
+		// Loop through the occupiedNeighbours array and return true if any are
+		// true
+		for (boolean occupiedNeighbour : occupiedNeighbours) {
+
+			if (occupiedNeighbour) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean checkPotentialMoves() {
+
+		if (GameEngine.containsPoint(this)) {
+
+			return true;
+		}
+
+		return false;
+	}
+	
+	public void removeTile() {
+		
+		GameEngine.removeFromPotentialMoves(this);
+	}
+	
+	public void addNeighbours() {
+		
+		GameEngine.setNeighboursOccupiedNeighbours(this);
 	}
 
 	public void setOccupiedNeighbour(int index) {
@@ -227,7 +285,7 @@ public class Tile extends JPanel {
 		Dimension size = this.getSize();
 		// System.out.println(size.width);
 
-		if (occupied) {
+		if (isOccupied()) {
 			if (occupiedBy == 0) {
 				graphic2D.setColor(new Color(0, 0, 0));// colour);
 			} else {

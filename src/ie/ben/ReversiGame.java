@@ -32,6 +32,8 @@ public class ReversiGame extends JFrame {
 	MainMenu menu;
 	// Game game;
 	Tile tile;
+	
+	Settings settings;
 	// ArrayList<ArrayList<Tile>> tiles;
 	public static Tile[][] tiles;
 	public static final int TILE_SIZE = 75;
@@ -77,6 +79,8 @@ public class ReversiGame extends JFrame {
 		menu = new MainMenu();
 		add(menu);
 		// menu.setVisible(false);
+		
+		settings = new Settings();
 
 		// Tile tileTest = new Tile(1, 1, 1);
 		// add(tileTest);
@@ -135,9 +139,9 @@ public class ReversiGame extends JFrame {
 
 				// boardPanel.setVisible(true);
 				
-				GameEngine test = new GameEngine();
-				test.setOccupied();
-				System.out.println(test.occupiedTiles.size());
+				GameEngine test = new GameEngine(settings.getPlayerNumber());
+				//test.setOccupied();
+				//System.out.println(test.occupiedTiles.size());
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));
@@ -249,11 +253,6 @@ public class ReversiGame extends JFrame {
 				//Call the setOccupiedNeighbours method on every tile object
 				tiles[row][col].setOccupiedNeighbours();
 			}
-		}
-		
-		for(int i = 0; i < 8; i++) {
-			
-			System.out.println(tiles[3][3].occupiedNeighbours[i]);
 		}
 
 		// setBackground(new Color(9, 22, 66));
