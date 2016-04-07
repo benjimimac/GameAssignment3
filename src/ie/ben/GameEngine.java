@@ -1,5 +1,6 @@
 package ie.ben;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ public class GameEngine {
 	public ArrayList<Point> occupiedTiles; // Store updated occupied tiles here
 	public ArrayList<Point> adjacentTiles;
 	public static ArrayList<Tile> potentialMoves;
-	public ArrayList<Point> legalMoves;
+	public static ArrayList<Tile> legalMoves;
 
 	public static int whichPlayer;
 	public int moves;
@@ -62,30 +63,33 @@ public class GameEngine {
 
 			for (int col = 0; col < ReversiGame.tiles[row].length; col++) {
 
-				//Check if the current tile has at least one neighbour tile that is occupied 
+				// Check if the current tile has at least one neighbour tile
+				// that is occupied
 				if (ReversiGame.tiles[row][col].isPotentialMove()) {
 
 					// If potentailMoves does not contain the reference to the
 					// tile location add it
 					if (!containsPoint(ReversiGame.tiles[row][col])) {
 
-						//potentialMoves.add(ReversiGame.tiles[row][col].getLocation());
-						
-						//Call the method to add the tiles location point to the potentialMoves ArrayList
+						// potentialMoves.add(ReversiGame.tiles[row][col].getLocation());
+
+						// Call the method to add the tiles location point to
+						// the potentialMoves ArrayList
 						addToPotentialMoves(ReversiGame.tiles[row][col]);
 					}
 				}
 			}
-		}	
-		
+		}
+
 		System.out.println("Current potential moves are :");
 		for (int i = 0; i < potentialMoves.size(); i++) {
 			System.out.println(potentialMoves.get(i).getLocation());
 		}
 	}
 
-	//Method that checks if a tiles location point is already in the potentialMoves ArrayList
-	//Returns true or false
+	// Method that checks if a tiles location point is already in the
+	// potentialMoves ArrayList
+	// Returns true or false
 	public static boolean containsPoint(Tile tile) {
 
 		if (potentialMoves.contains(tile)) {
@@ -95,21 +99,21 @@ public class GameEngine {
 		return false;
 	}
 
-	//Method that adds a tiles location point to the potentialMoves ArrayList
+	// Method that adds a tiles location point to the potentialMoves ArrayList
 	public static void addToPotentialMoves(Tile tile) {
 
 		// Add the new point to the ArrayList potentialMoves
 		potentialMoves.add(tile);
-		
-//		System.out.println("Current potential moves are :");
-//		for (int i = 0; i < potentialMoves.size(); i++) {
-//			System.out.println(potentialMoves.get(i).getLocation());
-//		}
+
+		// System.out.println("Current potential moves are :");
+		// for (int i = 0; i < potentialMoves.size(); i++) {
+		// System.out.println(potentialMoves.get(i).getLocation());
+		// }
 	}
-	
+
 	public static void removeFromPotentialMoves(Tile tile) {
-		
-		//Remove the point from potential moves
+
+		// Remove the point from potential moves
 		potentialMoves.remove(tile);
 	}
 
@@ -149,16 +153,61 @@ public class GameEngine {
 		}
 	}
 
+	public boolean checkLegalMove(Color colour, int player, Tile tile, int addX, int addY) {
+
+		// Instantiate the leagalMoves ArrayList
+		// legalMoves = new ArrayList<Tile>();
+
+		// Create a temporary Point object set to the location of the "next"
+		// tile
+		Point point = new Point(tile.getLocation().x + addX, tile.getLocation().y + addY);
+
+		// Check initial tile isn't occupied by the current player
+		if (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != player) {
+
+			// Loop while the currently selected tile is occupied
+			while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()) {
+
+				//Check if the next tile is occupied by the current player
+				if (ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY].isOccupied()
+						&& ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY]
+								.getOccupiedBy() == player) {
+
+					//Means this is a legal move
+					return true;
+				}
+				
+				//Translate point by (addX, addY)
+				point.translate(addX,  addY);
+			}
+		}
+
+		//Means this is not a legal move
+		return false;
+	}
+
+	// Method that adds a tiles location point to the potentialMoves ArrayList
+	public static void addToLegalMoves(Tile tile) {
+
+		// Add the new point to the ArrayList legalMoves
+		legalMoves.add(tile);
+
+		// System.out.println("Current potential moves are :");
+		// for (int i = 0; i < potentialMoves.size(); i++) {
+		// System.out.println(potentialMoves.get(i).getLocation());
+		// }
+	}
+
 	private void initGameEngine(int whichPlayer, int moves) {
 
-		//Set the static variable that tracks which player turn it is
+		// Set the static variable that tracks which player turn it is
 		setWhichPlayer(whichPlayer);
-		
+
 		this.moves = moves;
 	}
-	
+
 	public static void setWhichPlayer(int player) {
-		
+
 		whichPlayer = player;
 	}
 }

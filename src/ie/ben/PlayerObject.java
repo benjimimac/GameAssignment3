@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class PlayerObject {
 
 	//
+	protected int player;
 	protected Color colour;
 	protected ArrayList<Point> legalMoves = new ArrayList<Point>();
 	protected int pieceCount;
