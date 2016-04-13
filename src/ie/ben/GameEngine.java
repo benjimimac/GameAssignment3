@@ -6,15 +6,16 @@ import java.util.ArrayList;
 
 public class GameEngine {
 
-	public ArrayList<Point> occupiedTiles; // Store updated occupied tiles here
+	public static ArrayList<Tile> occupiedTiles; // Store updated occupied tiles
+													// here
 	public ArrayList<Point> adjacentTiles;
 	public static ArrayList<Tile> potentialMoves;
 	public static ArrayList<Tile> legalMoves;
 
-	public static int whichPlayer;
-	public int moves;
+	public static int currentPlayer;
+	private static int moves;
 
-	public GameEngine(int whichPlayer) {
+	public static void initGameEngine(int whichPlayer) {
 
 		initOccupiedTiles();
 
@@ -28,21 +29,38 @@ public class GameEngine {
 	// }
 
 	// Set an ArrayList of occupied Tiles
-	public void initOccupiedTiles() {
+	private static void initOccupiedTiles() {
 
 		// Initialise a new empty ArrayList
-		occupiedTiles = new ArrayList<Point>();
+		occupiedTiles = new ArrayList<Tile>();
 
 		for (int i = 0; i < ReversiGame.TILES_PER; i++) {
 			for (int j = 0; j < ReversiGame.TILES_PER; j++) {
 				if (ReversiGame.tiles[i][j].isOccupied()) {
-					occupiedTiles.add(ReversiGame.tiles[i][j].getLocation());
-					System.out.println(ReversiGame.tiles[i][j].getLocation());
+					occupiedTiles.add(ReversiGame.tiles[i][j]);
+					System.out.println(ReversiGame.tiles[i][j]);
 				}
 			}
 		}
 
 		System.out.println(occupiedTiles.size());
+	}
+
+	public static void addToOccupiedTiles(Tile tile) {
+
+		occupiedTiles.add(tile);
+	}
+
+	public static void repaintOccupiedTiles() {
+
+		// Loop through the occupied tiles ArrayList and revalidate and repaint
+		// all the occupied tiles
+		
+		for(Tile tile : occupiedTiles) {
+			
+			tile.revalidate();
+			tile.repaint();
+		}
 	}
 
 	private void setAdjacentTiles() {
@@ -52,7 +70,7 @@ public class GameEngine {
 
 	}
 
-	private void initPotentialMoves() {
+	private static void initPotentialMoves() {
 
 		// Instantiate the potentialMoves ArrayList
 		potentialMoves = new ArrayList<Tile>();
@@ -69,7 +87,7 @@ public class GameEngine {
 
 					// If potentailMoves does not contain the reference to the
 					// tile location add it
-					if (!containsPoint(ReversiGame.tiles[row][col])) {
+					if (!containsPotentialMove(ReversiGame.tiles[row][col])) {
 
 						// potentialMoves.add(ReversiGame.tiles[row][col].getLocation());
 
@@ -90,7 +108,7 @@ public class GameEngine {
 	// Method that checks if a tiles location point is already in the
 	// potentialMoves ArrayList
 	// Returns true or false
-	public static boolean containsPoint(Tile tile) {
+	public static boolean containsPotentialMove(Tile tile) {
 
 		if (potentialMoves.contains(tile)) {
 
@@ -146,43 +164,97 @@ public class GameEngine {
 
 				ReversiGame.tiles[row][col].setOccupiedNeighbour(index);
 
-				if (!ReversiGame.tiles[row][col].isOccupied() && !containsPoint(ReversiGame.tiles[row][col])) {
+				if (!ReversiGame.tiles[row][col].isOccupied() && !containsPotentialMove(ReversiGame.tiles[row][col])) {
 					addToPotentialMoves(ReversiGame.tiles[row][col]);
 				}
+
+				index--;
 			}
 		}
 	}
 
-	public boolean checkLegalMove(Color colour, int player, Tile tile, int addX, int addY) {
+	public static boolean checkLegalMove(/* Color colour, int player, */Point location, int addX, int addY) {
 
 		// Instantiate the leagalMoves ArrayList
 		// legalMoves = new ArrayList<Tile>();
 
 		// Create a temporary Point object set to the location of the "next"
 		// tile
-		Point point = new Point(tile.getLocation().x + addX, tile.getLocation().y + addY);
+		Point point = new Point(location.x + addX, location.y + addY);
 
 		// Check initial tile isn't occupied by the current player
-		if (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != player) {
+		if (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
 
 			// Loop while the currently selected tile is occupied
 			while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()) {
 
-				//Check if the next tile is occupied by the current player
+				// Check if the next tile is occupied by the current player
 				if (ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY].isOccupied()
 						&& ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY]
-								.getOccupiedBy() == player) {
+								.getOccupiedBy() == currentPlayer) {
 
-					//Means this is a legal move
+					// Means this is a legal move
 					return true;
 				}
-				
-				//Translate point by (addX, addY)
-				point.translate(addX,  addY);
+
+				// Translate point by (addX, addY)
+				point.translate(addX, addY);
 			}
 		}
 
-		//Means this is not a legal move
+		// Means this is not a legal move
+		return false;
+	}
+
+	public static void setLegalMoves() {
+
+		// Initialise the legalMoves ArrayList - every move it has to be
+		// re-initialised
+		legalMoves = new ArrayList<Tile>();
+
+		// Loop through the potentialMoves ArrayList and check for legal moves
+		// for the current player
+		for (Tile potentialMove : potentialMoves) {
+
+			// Initialise a temporary index variable to 0
+			int index = 0;
+
+			// Use a nested loop to cycle through each row and col of the
+			// surrounding tiles to check for legal moves
+			for (int row = -1; row <= 1; row++) {
+
+				for (int col = -1; col <= 1; col++) {
+
+					// If (0, 0) continue to next iteration of loop
+					if (row == 0 && col == 0) {
+						continue;
+					}
+
+					// If the neighbour at (row, col) is occupied - check if
+					// legal move
+					if (potentialMove.getOccupiedNeighbour(index)) {
+
+						if (checkLegalMove(potentialMove.getLocation(), row, col)) {
+
+							addToLegalMoves(potentialMove);
+						}
+					}
+
+					index++;
+				}
+			}
+		}
+	}
+
+	// Method that checks if a tiles location point is already in the
+	// potentialMoves ArrayList
+	// Returns true or false
+	public static boolean containsLegalMove(Tile tile) {
+
+		if (legalMoves.contains(tile)) {
+
+			return true;
+		}
 		return false;
 	}
 
@@ -198,16 +270,16 @@ public class GameEngine {
 		// }
 	}
 
-	private void initGameEngine(int whichPlayer, int moves) {
+	private static void initGameEngine(int currentPlayer, int m) {
 
 		// Set the static variable that tracks which player turn it is
-		setWhichPlayer(whichPlayer);
+		setCurrentPlayer(currentPlayer);
 
-		this.moves = moves;
+		moves = m;
 	}
 
-	public static void setWhichPlayer(int player) {
+	public static void setCurrentPlayer(int player) {
 
-		whichPlayer = player;
+		currentPlayer = player;
 	}
 }

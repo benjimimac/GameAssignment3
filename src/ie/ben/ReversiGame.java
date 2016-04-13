@@ -139,9 +139,11 @@ public class ReversiGame extends JFrame {
 
 				// boardPanel.setVisible(true);
 				
-				GameEngine test = new GameEngine(settings.getPlayerNumber());
+				//GameEngine test = new GameEngine(settings.getPlayerNumber());
 				//test.setOccupied();
 				//System.out.println(test.occupiedTiles.size());
+				GameEngine.initGameEngine(player);
+				GameEngine.setLegalMoves();
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));

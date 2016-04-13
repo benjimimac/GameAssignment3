@@ -41,6 +41,21 @@ public class Tile extends JPanel {
 		initOccupiedTile(location, occupiedBy);
 	}
 
+	// Third constructor will be used by the AI to make its decisions
+	// The AI make a copy of the the original board so it can check possible
+	// future moves
+	public Tile(Point location, boolean occupied, int occupiedBy) {
+
+		// Make a copy of the original tile
+		if (occupied) {
+
+			initOccupiedTile(location, occupiedBy);
+		} else {
+
+			initEmptyTile(location);
+		}
+	}
+
 	private void initUI() {
 		setPreferredSize(new Dimension(75, 75));
 		setBackground(new Color(0, 123, 0));
@@ -50,11 +65,14 @@ public class Tile extends JPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent mouseEvent) {
+
 				// Use an if else statement her to change to different
 				// colours depending on legal moves.
-				if (checkPotentialMoves()) { // !isOccupied()) {
+				if (checkLegalMoves()) { // !isOccupied()) {
 
 					setBackground(new Color(135, 206, 250));
+					revalidate();
+					repaint();
 					// System.out.println("Not occupied");
 				}
 				// } else {
@@ -66,21 +84,46 @@ public class Tile extends JPanel {
 
 			@Override
 			public void mouseExited(MouseEvent mouseEvent) {
+
 				setBackground(new Color(0, 123, 0));
+				revalidate();
+				repaint();
 			}
 
 			@Override
 			public void mousePressed(MouseEvent moouseEvent) {
-				if (checkPotentialMoves()) {
+
+				if (checkLegalMoves()) {// checkPotentialMoves()) {
 					setOccupied(true);
+					setOccupiedBy(GameEngine.currentPlayer);
 					setBackground(new Color(0, 123, 0));
-					removeTile();
+					removeTileFromPotentialMoves();
 					addNeighbours();
+					revalidate();
 					repaint();
+					addToOccupied();
+					GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
+					GameEngine.setLegalMoves();
+
+					System.out.println("Curent Player is: " + GameEngine.currentPlayer);
 					
-					System.out.println("Current potential moves are :");
-					for (int i = 0; i < GameEngine.potentialMoves.size(); i++) {
-						System.out.println(GameEngine.potentialMoves.get(i).getLocation());
+					GameEngine.repaintOccupiedTiles();
+
+					// System.out.println("Current potential moves are :");
+					// for (int i = 0; i < GameEngine.potentialMoves.size();
+					// i++) {
+					// System.out.println(GameEngine.potentialMoves.get(i).getLocation());
+					// }
+					//
+					// System.out.println("Current legal moves are :");
+					// for (int i = 0; i < GameEngine.legalMoves.size(); i++) {
+					// System.out.println(GameEngine.legalMoves.get(i).getLocation());
+					// }
+
+					System.out.println("Current occupied tiles are :");
+					for (int i = 0; i < GameEngine.occupiedTiles.size(); i++) {
+						System.out.println(GameEngine.occupiedTiles.get(i).getLocation() + " occupied by "
+								+ GameEngine.occupiedTiles.get(i).occupiedBy);
 					}
 				}
 			}
@@ -201,28 +244,49 @@ public class Tile extends JPanel {
 
 	public boolean checkPotentialMoves() {
 
-		if (GameEngine.containsPoint(this)) {
+		if (GameEngine.containsPotentialMove(this)) {
 
 			return true;
 		}
 
 		return false;
 	}
-	
-	public void removeTile() {
-		
+
+	public boolean checkLegalMoves() {
+
+		if (GameEngine.containsLegalMove(this)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public void removeTileFromPotentialMoves() {
+
 		GameEngine.removeFromPotentialMoves(this);
 	}
-	
+
 	public void addNeighbours() {
-		
+
 		GameEngine.setNeighboursOccupiedNeighbours(this);
+	}
+
+	public void addToOccupied() {
+
+		GameEngine.addToOccupiedTiles(this);
 	}
 
 	public void setOccupiedNeighbour(int index) {
 
 		// Set the value of occupiedNeghbours at a given index to true
 		occupiedNeighbours[index] = true;
+	}
+
+	public boolean getOccupiedNeighbour(int index) {
+
+		// Set the value of occupiedNeghbours at a given index to true
+		return occupiedNeighbours[index];
 	}
 
 	public void setOccupied(boolean occupied) {
