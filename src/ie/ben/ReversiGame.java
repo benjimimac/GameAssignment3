@@ -144,6 +144,8 @@ public class ReversiGame extends JFrame {
 				//System.out.println(test.occupiedTiles.size());
 				GameEngine.initGameEngine(player);
 				GameEngine.setLegalMoves();
+				System.out.println("The legal moves array list is of size " + GameEngine.legalMoves.size());
+				GameEngine.repaintLegalMoveTiles();
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));

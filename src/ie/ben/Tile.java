@@ -68,9 +68,9 @@ public class Tile extends JPanel {
 
 				// Use an if else statement her to change to different
 				// colours depending on legal moves.
-				if (checkLegalMoves()) { // !isOccupied()) {
+				if (!checkLegalMoves() && !isOccupied()) { // !isOccupied()) {
 
-					setBackground(new Color(135, 206, 250));
+					setBackground(new Color(135, 0, 0));
 					revalidate();
 					repaint();
 					// System.out.println("Not occupied");
@@ -85,9 +85,12 @@ public class Tile extends JPanel {
 			@Override
 			public void mouseExited(MouseEvent mouseEvent) {
 
-				setBackground(new Color(0, 123, 0));
-				revalidate();
-				repaint();
+				if (!checkLegalMoves()) {
+					
+					setBackground(new Color(0, 123, 0));
+					revalidate();
+					repaint();
+				}
 			}
 
 			@Override
@@ -103,11 +106,15 @@ public class Tile extends JPanel {
 					repaint();
 					addToOccupied();
 					GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
+					GameEngine.resetAllTiles();
+
 					GameEngine.setLegalMoves();
 
+					GameEngine.repaintLegalMoveTiles();
+
 					System.out.println("Curent Player is: " + GameEngine.currentPlayer);
-					
-					GameEngine.repaintOccupiedTiles();
+
+					// GameEngine.repaintOccupiedTiles();
 
 					// System.out.println("Current potential moves are :");
 					// for (int i = 0; i < GameEngine.potentialMoves.size();
@@ -218,6 +225,11 @@ public class Tile extends JPanel {
 
 				index++;
 			}
+		}
+		
+		for(int i = 0; i < 8; i++) {
+			
+			System.out.println(occupiedNeighbours[i]);
 		}
 	}
 

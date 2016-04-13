@@ -55,11 +55,33 @@ public class GameEngine {
 
 		// Loop through the occupied tiles ArrayList and revalidate and repaint
 		// all the occupied tiles
-		
-		for(Tile tile : occupiedTiles) {
-			
+
+		for (Tile tile : occupiedTiles) {
+
 			tile.revalidate();
 			tile.repaint();
+		}
+	}
+
+	public static void resetAllTiles() {
+
+		for (Tile legalMove : legalMoves) {
+
+			legalMove.setBackground(new Color(0, 123, 0));
+			legalMove.revalidate();
+			legalMove.repaint();
+		}
+	}
+
+	public static void repaintLegalMoveTiles() {
+
+		// Each turn the legal moves must be repainted
+		// Loop through the legalMoves ArrayList
+		for (Tile legalMove : legalMoves) {
+
+			legalMove.setBackground(new Color(135, 206, 250));
+			legalMove.revalidate();
+			legalMove.repaint();
 		}
 	}
 
@@ -188,6 +210,11 @@ public class GameEngine {
 			// Loop while the currently selected tile is occupied
 			while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()) {
 
+				if(point.getLocation().x + addX < 0 || point.getLocation().x + addX > 7 || point.getLocation().y + addY < 0 || point.getLocation().y + addY > 7) {
+					
+					break;
+				}
+				
 				// Check if the next tile is occupied by the current player
 				if (ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY].isOccupied()
 						&& ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY]
@@ -222,14 +249,37 @@ public class GameEngine {
 			// Use a nested loop to cycle through each row and col of the
 			// surrounding tiles to check for legal moves
 			for (int row = -1; row <= 1; row++) {
+//			for(int row = potentialMove.getLocation().x - 1; row <= potentialMove.getLocation().x + 1; row++) {
 
 				for (int col = -1; col <= 1; col++) {
+//				for(int col = potentialMove.getLocation().y - 1; col <= potentialMove.getLocation().y + 1; col++) {
 
-					// If (0, 0) continue to next iteration of loop
-					if (row == 0 && col == 0) {
+					 
+					if ((potentialMove.getLocation().x < 1 && row < 0)
+							|| (potentialMove.getLocation().x > 6 && row > 0)) {
+//					if(row < 0 || row > 7) {
+
+						index += 3;
+						// System.out.println("Inside the row break statement");
+						break;
+					}
+
+					if ((potentialMove.getLocation().y < 1 && col < 0)
+							|| (potentialMove.getLocation().y > 6 && col > 0)) {
+//					if(col < 0 || col > 7) {
+
+						index++;
 						continue;
 					}
 
+					// If (0, 0) continue to next iteration of loop
+					if (row == 0 && col == 0) {
+//					if(potentialMove.getLocation().equals(new Point(row, col))) {
+						continue;
+					}
+
+					System.out.println("index is " + index + ", location is " + potentialMove.getLocation());
+//					System.out.println("index is " + index + ", location is (" + row + ", " + col + ")");
 					// If the neighbour at (row, col) is occupied - check if
 					// legal move
 					if (potentialMove.getOccupiedNeighbour(index)) {
