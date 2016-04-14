@@ -26,8 +26,8 @@ import javax.swing.KeyStroke;
 
 public class ReversiGame extends JFrame {
 
-	private final int WINDOW_WIDTH = 700;
-	private final int WINDOW_HEIGHT = 900;
+	public static final int WINDOW_WIDTH = 700;
+	public static final int WINDOW_HEIGHT = 900;
 
 	MainMenu menu;
 	// Game game;
@@ -45,9 +45,11 @@ public class ReversiGame extends JFrame {
 	public static final int PIECE_START_Y = 163;
 	public static int num = 0;
 
-	private boolean gameLoaded = false;;
+	public static boolean gameLoaded = false;;
 
-	private JPanel boardPanel;
+	private Board boardPanel;
+	private TextArea textArea1;
+	private TextArea textArea2;
 
 	// The default is 0 (black)
 	public int player = 0;
@@ -131,10 +133,27 @@ public class ReversiGame extends JFrame {
 				players.add(player2);
 
 				// Create the text areas for each player
-				createTextArea();
+				//createTextArea();
 
 				// Call the createBoard method
-				createBoard();
+//				createBoard();
+				
+				if (gameLoaded) {
+					remove(textArea1);
+					remove(textArea2);
+					remove(boardPanel);
+					revalidate();
+					repaint();
+				}
+				
+				textArea1 = new TextArea(0);
+				add(textArea1, BorderLayout.LINE_START);
+				
+				textArea2 = new TextArea(1);
+				add(textArea2, BorderLayout.LINE_END);
+				
+				boardPanel = new Board();
+				add(boardPanel, BorderLayout.SOUTH);
 				// boardPanel.setVisible(false);
 
 				// boardPanel.setVisible(true);
