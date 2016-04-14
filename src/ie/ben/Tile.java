@@ -105,14 +105,15 @@ public class Tile extends JPanel {
 					revalidate();
 					repaint();
 					addToOccupied();
+					takeTiles();
 					GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
-					GameEngine.resetAllTiles();
+					GameEngine.resetAllLegalTiles();
 
 					GameEngine.setLegalMoves();
 
 					GameEngine.repaintLegalMoveTiles();
 
-					System.out.println("Curent Player is: " + GameEngine.currentPlayer);
+//					System.out.println("Curent Player is: " + GameEngine.currentPlayer);
 
 					// GameEngine.repaintOccupiedTiles();
 
@@ -127,11 +128,11 @@ public class Tile extends JPanel {
 					// System.out.println(GameEngine.legalMoves.get(i).getLocation());
 					// }
 
-					System.out.println("Current occupied tiles are :");
-					for (int i = 0; i < GameEngine.occupiedTiles.size(); i++) {
-						System.out.println(GameEngine.occupiedTiles.get(i).getLocation() + " occupied by "
-								+ GameEngine.occupiedTiles.get(i).occupiedBy);
-					}
+//					System.out.println("Current occupied tiles are :");
+//					for (int i = 0; i < GameEngine.occupiedTiles.size(); i++) {
+//						System.out.println(GameEngine.occupiedTiles.get(i).getLocation() + " occupied by "
+//								+ GameEngine.occupiedTiles.get(i).occupiedBy);
+//					}
 				}
 			}
 		});
@@ -229,7 +230,7 @@ public class Tile extends JPanel {
 		
 		for(int i = 0; i < 8; i++) {
 			
-			System.out.println(occupiedNeighbours[i]);
+//			System.out.println(occupiedNeighbours[i]);
 		}
 	}
 
@@ -337,6 +338,50 @@ public class Tile extends JPanel {
 	public Point getLocation() {
 
 		return location;
+	}
+	
+	public void takeTiles() {
+		
+		int index = 0;
+		int tilesTaken = 0;
+		
+		//for(int row = getLocation().x - 1; row <= getLocation().x + 1; row++) {
+		for(int row = -1; row <= 1; row++) {
+			
+			//for(int col = getLocation().y - 1; col <= getLocation().y + 1; col++) {
+			for(int col = -1; col <= 1; col++) {
+				
+				if(getLocation().x + row < 0 || getLocation().x + row > 7) {
+					//System.out.println("row break");
+					index += 3;
+					break;
+				}
+				
+				if(getLocation().y + col < 0 || getLocation().y + col > 7) {
+					//System.out.println("col continue");
+					index++;
+					continue;
+				}
+				
+				if(location.equals(new Point(getLocation().x + row, getLocation().y + col))) {
+					
+					continue;
+				}
+				
+				if(getOccupiedNeighbour(index)) {
+//					System.out.println("Tile.takeTiles method if statement - index is " + index + " - row/col is " + row + ", " + col);
+					if(GameEngine.checkLegalMove(location, row, col)) {
+						
+						tilesTaken += GameEngine.takeTiles(row, col, location);
+					}
+				}
+				
+				index++;
+			}
+		}
+		ReversiGame.players.get(GameEngine.currentPlayer).setPieceCount(tilesTaken + 1);
+		ReversiGame.players.get((GameEngine.currentPlayer + 1) % 2).setPieceCount(-tilesTaken);
+		System.out.println("tilesTaken = " + tilesTaken);
 	}
 
 	// public int getRow() {

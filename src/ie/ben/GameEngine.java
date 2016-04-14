@@ -38,12 +38,12 @@ public class GameEngine {
 			for (int j = 0; j < ReversiGame.TILES_PER; j++) {
 				if (ReversiGame.tiles[i][j].isOccupied()) {
 					occupiedTiles.add(ReversiGame.tiles[i][j]);
-					System.out.println(ReversiGame.tiles[i][j]);
+//					System.out.println(ReversiGame.tiles[i][j]);
 				}
 			}
 		}
 
-		System.out.println(occupiedTiles.size());
+//		System.out.println(occupiedTiles.size());
 	}
 
 	public static void addToOccupiedTiles(Tile tile) {
@@ -63,7 +63,7 @@ public class GameEngine {
 		}
 	}
 
-	public static void resetAllTiles() {
+	public static void resetAllLegalTiles() {
 
 		for (Tile legalMove : legalMoves) {
 
@@ -121,9 +121,9 @@ public class GameEngine {
 			}
 		}
 
-		System.out.println("Current potential moves are :");
+//		System.out.println("Current potential moves are :");
 		for (int i = 0; i < potentialMoves.size(); i++) {
-			System.out.println(potentialMoves.get(i).getLocation());
+//			System.out.println(potentialMoves.get(i).getLocation());
 		}
 	}
 
@@ -204,17 +204,21 @@ public class GameEngine {
 		// tile
 		Point point = new Point(location.x + addX, location.y + addY);
 
+		//if()
 		// Check initial tile isn't occupied by the current player
+//		System.out.println("checkLegalMove point - " + point);
 		if (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
 
 			// Loop while the currently selected tile is occupied
 			while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()) {
 
-				if(point.getLocation().x + addX < 0 || point.getLocation().x + addX > 7 || point.getLocation().y + addY < 0 || point.getLocation().y + addY > 7) {
-					
+				//System.out.println(addX + ", " + addY);
+				if (point.getLocation().x + addX < 0 || point.getLocation().x + addX > 7
+						|| point.getLocation().y + addY < 0 || point.getLocation().y + addY > 7) {
+
 					break;
 				}
-				
+
 				// Check if the next tile is occupied by the current player
 				if (ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY].isOccupied()
 						&& ReversiGame.tiles[point.getLocation().x + addX][point.getLocation().y + addY]
@@ -249,15 +253,16 @@ public class GameEngine {
 			// Use a nested loop to cycle through each row and col of the
 			// surrounding tiles to check for legal moves
 			for (int row = -1; row <= 1; row++) {
-//			for(int row = potentialMove.getLocation().x - 1; row <= potentialMove.getLocation().x + 1; row++) {
+				// for(int row = potentialMove.getLocation().x - 1; row <=
+				// potentialMove.getLocation().x + 1; row++) {
 
 				for (int col = -1; col <= 1; col++) {
-//				for(int col = potentialMove.getLocation().y - 1; col <= potentialMove.getLocation().y + 1; col++) {
+					// for(int col = potentialMove.getLocation().y - 1; col <=
+					// potentialMove.getLocation().y + 1; col++) {
 
-					 
 					if ((potentialMove.getLocation().x < 1 && row < 0)
 							|| (potentialMove.getLocation().x > 6 && row > 0)) {
-//					if(row < 0 || row > 7) {
+						// if(row < 0 || row > 7) {
 
 						index += 3;
 						// System.out.println("Inside the row break statement");
@@ -266,7 +271,7 @@ public class GameEngine {
 
 					if ((potentialMove.getLocation().y < 1 && col < 0)
 							|| (potentialMove.getLocation().y > 6 && col > 0)) {
-//					if(col < 0 || col > 7) {
+						// if(col < 0 || col > 7) {
 
 						index++;
 						continue;
@@ -274,12 +279,15 @@ public class GameEngine {
 
 					// If (0, 0) continue to next iteration of loop
 					if (row == 0 && col == 0) {
-//					if(potentialMove.getLocation().equals(new Point(row, col))) {
+						// if(potentialMove.getLocation().equals(new Point(row,
+						// col))) {
 						continue;
 					}
 
-					System.out.println("index is " + index + ", location is " + potentialMove.getLocation());
-//					System.out.println("index is " + index + ", location is (" + row + ", " + col + ")");
+					// System.out.println("index is " + index + ", location is "
+					// + potentialMove.getLocation());
+					// System.out.println("index is " + index + ", location is
+					// (" + row + ", " + col + ")");
 					// If the neighbour at (row, col) is occupied - check if
 					// legal move
 					if (potentialMove.getOccupiedNeighbour(index)) {
@@ -306,6 +314,26 @@ public class GameEngine {
 			return true;
 		}
 		return false;
+	}
+
+	public static int takeTiles(int addX, int addY, Point location) {
+
+		Point point = new Point(location.getLocation().x + addX, location.getLocation().y + addY);
+		int tilesTaken = 0;
+
+		while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()
+				&& ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
+
+			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].setOccupiedBy(currentPlayer);
+			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].revalidate();
+			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].repaint();
+			System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
+//			System.out.println();
+			point.translate(addX,  addY);
+			tilesTaken += 1;
+		}
+		
+		return tilesTaken;
 	}
 
 	// Method that adds a tiles location point to the potentialMoves ArrayList

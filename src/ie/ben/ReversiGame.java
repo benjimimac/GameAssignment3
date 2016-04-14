@@ -54,7 +54,7 @@ public class ReversiGame extends JFrame {
 
 	public HumanPlayer player1;
 	public AIPlayer player2;
-	ArrayList<PlayerObject> players;// = new ArrayList<PlayerObject>();
+	public static ArrayList<PlayerObject> players;// = new ArrayList<PlayerObject>();
 
 	// private JPanel pan1;
 
