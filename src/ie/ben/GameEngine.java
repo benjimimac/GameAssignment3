@@ -4,7 +4,9 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class GameEngine {
+import javax.swing.JFrame;
+
+public class GameEngine extends JFrame{
 
 	public static ArrayList<Tile> occupiedTiles; // Store updated occupied tiles
 													// here
@@ -38,12 +40,12 @@ public class GameEngine {
 			for (int j = 0; j < ReversiGame.TILES_PER; j++) {
 				if (ReversiGame.tiles[i][j].isOccupied()) {
 					occupiedTiles.add(ReversiGame.tiles[i][j]);
-//					System.out.println(ReversiGame.tiles[i][j]);
+					// System.out.println(ReversiGame.tiles[i][j]);
 				}
 			}
 		}
 
-//		System.out.println(occupiedTiles.size());
+		// System.out.println(occupiedTiles.size());
 	}
 
 	public static void addToOccupiedTiles(Tile tile) {
@@ -121,9 +123,9 @@ public class GameEngine {
 			}
 		}
 
-//		System.out.println("Current potential moves are :");
+		// System.out.println("Current potential moves are :");
 		for (int i = 0; i < potentialMoves.size(); i++) {
-//			System.out.println(potentialMoves.get(i).getLocation());
+			// System.out.println(potentialMoves.get(i).getLocation());
 		}
 	}
 
@@ -204,15 +206,15 @@ public class GameEngine {
 		// tile
 		Point point = new Point(location.x + addX, location.y + addY);
 
-		//if()
+		// if()
 		// Check initial tile isn't occupied by the current player
-//		System.out.println("checkLegalMove point - " + point);
+		// System.out.println("checkLegalMove point - " + point);
 		if (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
 
 			// Loop while the currently selected tile is occupied
 			while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()) {
 
-				//System.out.println(addX + ", " + addY);
+				// System.out.println(addX + ", " + addY);
 				if (point.getLocation().x + addX < 0 || point.getLocation().x + addX > 7
 						|| point.getLocation().y + addY < 0 || point.getLocation().y + addY > 7) {
 
@@ -328,11 +330,11 @@ public class GameEngine {
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].revalidate();
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].repaint();
 			System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
-//			System.out.println();
-			point.translate(addX,  addY);
+			// System.out.println();
+			point.translate(addX, addY);
 			tilesTaken += 1;
 		}
-		
+
 		return tilesTaken;
 	}
 
@@ -360,4 +362,68 @@ public class GameEngine {
 
 		currentPlayer = player;
 	}
+
+	public static boolean updateGame() {
+
+		boolean gameOver = false;
+		
+		// Change player
+		currentPlayer = (currentPlayer + 1) % 2;
+
+		// Text areas must be updated now
+		ReversiGame.setTextAreaText();
+		ReversiGame.setTextAreaColour();
+
+		// legalMoves array must be reset every turn
+		resetAllLegalTiles();
+		setLegalMoves();
+		repaintLegalMoveTiles(); // repaints all the relevant tiles
+
+		// If legalMoves is empty there are no legal moves for the current
+		// player
+		if (legalMoves.isEmpty()) {
+
+			gameOver = false; 
+			// If potentialMoves is not empty switch to next player and
+			// reset/repaint components
+			if (!potentialMoves.isEmpty()) {
+
+				//Change to next player
+				currentPlayer = (currentPlayer + 1) % 2;
+
+				//Repaint the text areas
+				ReversiGame.setTextAreaColour();
+
+				//Reset/repaint legalMoves
+				resetAllLegalTiles();
+				setLegalMoves();
+				repaintLegalMoveTiles();
+
+				//If there are no legal moves for second player then game over
+				if (legalMoves.isEmpty()) {
+					gameOver = true;
+					currentPlayer = 0;
+					//Create a dialog that gives scores and option for new game
+					//ReversiGame.endMessage.setVisible(true);
+					
+					//public static void endGameDialog() {
+						
+//						GameOver endMessage = new GameOver(this);
+//				        endMessage.setVisible(false);
+//				        //add(endMessage);
+					
+					
+					System.out.println("Game Over");
+				}
+
+			} else {
+
+				gameOver = true;
+				System.out.println("Game Over");
+
+			}
+		}
+		
+		return gameOver;
+	}	
 }

@@ -48,8 +48,9 @@ public class ReversiGame extends JFrame {
 	public static boolean gameLoaded = false;;
 
 	private Board boardPanel;
-	private TextArea textArea1;
-	private TextArea textArea2;
+	public static TextArea textArea1;
+	public static TextArea textArea2;
+	//public static GameOver endMessage;
 
 	// The default is 0 (black)
 	public int player = 0;
@@ -95,6 +96,18 @@ public class ReversiGame extends JFrame {
 
 	}
 
+	public static void setTextAreaText() {
+		
+		textArea1.setText();
+		textArea2.setText();
+		
+	}
+	
+	public static void setTextAreaColour() {
+		
+		textArea1.setColour();
+		textArea2.setColour();
+	}
 	// method to create the menu bar of the window
 	private void createMenuBar() {
 
@@ -124,6 +137,7 @@ public class ReversiGame extends JFrame {
 				// Hide the main menu and start the game
 				menu.setVisible(false);
 
+				GameEngine.currentPlayer = player;
 				// Create the player objects and add them to the players
 				// ArrayList
 				player1 = new HumanPlayer(player);
@@ -154,6 +168,8 @@ public class ReversiGame extends JFrame {
 				
 				boardPanel = new Board();
 				add(boardPanel, BorderLayout.SOUTH);
+				
+				setTextAreaColour();
 				// boardPanel.setVisible(false);
 
 				// boardPanel.setVisible(true);
@@ -165,6 +181,8 @@ public class ReversiGame extends JFrame {
 				GameEngine.setLegalMoves();
 				System.out.println("The legal moves array list is of size " + GameEngine.legalMoves.size());
 				GameEngine.repaintLegalMoveTiles();
+				
+				//endGameDialog();
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));

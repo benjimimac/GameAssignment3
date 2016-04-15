@@ -30,7 +30,7 @@ public class TextArea extends JPanel{
 		setBorder(BorderFactory.createEtchedBorder(20, Color.white, Color.white));
 		
 		//Instantiate the label
-		label = new JLabel("<html>Player: " + playerNum + "<br>PieceCount: " + ReversiGame.players.get(player).pieceCount + "</html>");
+		label = new JLabel("<html>Player: " + playerNum + "<br>Piece Count: " + ReversiGame.players.get(player).pieceCount + "</html>");
 		
 		//Set the label properties
 		label.setFont(new Font("Serif", Font.BOLD, 19));
@@ -40,5 +40,30 @@ public class TextArea extends JPanel{
 		//Add the label to the TextArea JPanel
 		add(label);
 		
+	}
+	
+	public void setText() {
+		
+		String text = "<html>Player: " + playerNum + "<br>Piece Count: " + ReversiGame.players.get(playerNum - 1).pieceCount + "</html>";
+		
+		label.setText(text);
+		
+		revalidate();
+		repaint();
+	}
+	
+	public void setColour() {
+		
+		if(playerNum - 1 == GameEngine.currentPlayer) {
+			
+			setBackground(new Color(135, 206, 250));
+		} else {
+			
+			setBackground(new Color(127, 127, 127));
+		}
+		
+
+		revalidate();
+		repaint();
 	}
 }
