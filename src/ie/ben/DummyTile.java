@@ -13,6 +13,11 @@ public class DummyTile {
 
 		return occupiedNeighbours[index];
 	}
+	
+	public void setOccupiedNeighbour(int index) {
+
+		occupiedNeighbours[index] = true;
+	}
 
 	public void setOccupiedNeighbours(boolean[] occupiedNeighbours) {
 

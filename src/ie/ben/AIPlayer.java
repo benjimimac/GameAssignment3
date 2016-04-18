@@ -105,7 +105,7 @@ public class AIPlayer extends PlayerObject {
 			}
 		}
 	}
-	
+
 	public boolean checkLegalMove(/* Color colour, int player, */Point location, int addX, int addY) {
 
 		// Instantiate the leagalMoves ArrayList
@@ -151,31 +151,31 @@ public class AIPlayer extends PlayerObject {
 	public void initPotentialMovesDummy() {
 
 		// Instantiate the potentialMoves ArrayList
-				potentialMovesDummy = new ArrayList<DummyTile>();
+		potentialMovesDummy = new ArrayList<DummyTile>();
 
-				// Loop through the global tiles object array to add tiles to the
-				// potentialMoves arrayList
-				for (int row = 0; row < dummyTiles.length; row++) {
+		// Loop through the global tiles object array to add tiles to the
+		// potentialMoves arrayList
+		for (int row = 0; row < dummyTiles.length; row++) {
 
-					for (int col = 0; col < dummyTiles[row].length; col++) {
+			for (int col = 0; col < dummyTiles[row].length; col++) {
 
-						// Check if the current tile has at least one neighbour tile
-						// that is occupied
-						if (dummyTiles[row][col].isPotentialMove()) {
+				// Check if the current tile has at least one neighbour tile
+				// that is occupied
+				if (dummyTiles[row][col].isPotentialMove()) {
 
-							// If potentailMoves does not contain the reference to the
-							// tile location add it
-							if (!containsPotentialMoveDummy(dummyTiles[row][col])) {
+					// If potentailMoves does not contain the reference to the
+					// tile location add it
+					if (!containsPotentialMoveDummy(dummyTiles[row][col])) {
 
-								// potentialMoves.add(ReversiGame.tiles[row][col].getLocation());
+						// potentialMoves.add(ReversiGame.tiles[row][col].getLocation());
 
-								// Call the method to add the tiles location point to
-								// the potentialMoves ArrayList
-								addToPotentialMovesDummy(dummyTiles[row][col]);
-							}
-						}
+						// Call the method to add the tiles location point to
+						// the potentialMoves ArrayList
+						addToPotentialMovesDummy(dummyTiles[row][col]);
 					}
 				}
+			}
+		}
 	}
 
 	// Method that checks if a tiles location point is already in the
@@ -191,10 +191,10 @@ public class AIPlayer extends PlayerObject {
 	}
 
 	// Method that adds a tiles location point to the potentialMoves ArrayList
-	public void addToPotentialMovesDummy(DummyTile dummyTile) {
+	public void addToPotentialMovesDummy(DummyTile dummyTile, ArrayList<DummyTile> dummyPotentialMoves) {
 
 		// Add the new point to the ArrayList potentialMoves
-		potentialMovesDummy.add(dummyTile);
+		dummyPotentialMoves.add(dummyTile);
 
 		// System.out.println("Current potential moves are :");
 		// for (int i = 0; i < potentialMoves.size(); i++) {
@@ -202,43 +202,44 @@ public class AIPlayer extends PlayerObject {
 		// }
 	}
 
-	public static void removeFromPotentialMovesDummy(DummyTile dummyTile) {
+	public static void removeFromPotentialMovesDummy(DummyTile dummyTile, ArrayList<DummyTile> dummyPotentialMoves) {
 
 		// Remove the point from potential moves
-		potentialMovesDummy.remove(dummyTile);
+		dummyPotentialMoves.remove(dummyTile);
 	}
 
 	// If a tile is occupied set each neighbours occupiedNeighbours array at the
 	// relevant index
-	public void setNeighboursOccupiedNeighbours(DummyTile dummyTile) {
+	public void setNeighboursOccupiedNeighbours(DummyTile[][] dummyTiles, int row, int col,
+			ArrayList<DummyTile> dummyPotentialMoves) {
 
 		int index = 7;
 
-		for (int row = dummyTile.getLocation().x - 1; row <= dummyTile.getLocation().x + 1; row++) {
+		for (int rows = row - 1; rows <= row + 1; rows++) {
 
-			for (int col = dummyTile.getLocation().y - 1; col <= dummyTile.getLocation().y + 1; col++) {
+			for (int cols = col - 1; cols <= col + 1; cols++) {
 
-				if (row < 0 || row > 7) {
+				if (rows < 0 || rows > 7) {
 
 					index -= 3;
 					break;
 				}
 
-				if (col < 0 || col > 7) {
+				if (cols < 0 || cols > 7) {
 
 					index--;
 					continue;
 				}
 
-				if (dummyTile.getLocation().equals(new Point(row, col))) {
+				if (row == rows && col == cols) {
 
 					continue;
 				}
 
-				ReversiGame.tiles[row][col].setOccupiedNeighbour(index);
+				dummyTiles[rows][cols].setOccupiedNeighbour(index);
 
-				if (!dummyTiles[row][col].isOccupied() && !containsPotentialMoveDummy(dummyTiles[row][col])) {
-					addToPotentialMovesDummy(dummyTiles[row][col]);
+				if (!dummyTiles[rows][cols].isOccupied() && !containsPotentialMoveDummy(dummyTiles[rows][cols])) {
+					addToPotentialMovesDummy(dummyTiles[rows][cols], dummyPotentialMoves);
 				}
 
 				index--;
@@ -257,23 +258,32 @@ public class AIPlayer extends PlayerObject {
 		}
 		return false;
 	}
-	
+
 	public int selectMove() {
 		ArrayList<DummyTile> legalMovesDummy = new ArrayList<DummyTile>();
-		
-		
-		for(int index = 0; index < GameEngine.legalMoves.size(); index++) {
-			
+		ArrayList<DummyTile> potentialMovesDummy = new ArrayList<DummyTile>();
+
+		for (int index = 0; index < GameEngine.legalMoves.size(); index++) {
+
 			DummyTile[][] tempDummyTiles = new DummyTile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
-			for(int row = 0; row < ReversiGame.TILES_PER; row++) {
-				
-				for(int col = 0; col < ReversiGame.TILES_PER; col++) {
+			for (int row = 0; row < ReversiGame.TILES_PER; row++) {
+
+				for (int col = 0; col < ReversiGame.TILES_PER; col++) {
+
+					DummyTile tempDummyTile = new DummyTile(new Point(row, col),
+							ReversiGame.tiles[row][col].isOccupied(), ReversiGame.tiles[row][col].getOccupiedBy(),
+							ReversiGame.tiles[row][col].getOccupiedNeighbours());
+					tempDummyTiles[row][col] = tempDummyTile;
 					
-					DummyTile tempDummyTile = new DummyTile(new Point(row, col), ReversiGame.tiles[row][col].isOccupied(), ReversiGame.tiles[row][col].getOccupiedBy(), ReversiGame.tiles[row][col].getOccupiedNeighbours());
+					if(GameEngine.containsPotentialMove(ReversiGame.tiles[row][col])) {
+						
+						addToPotentialMoves(tempDummyTiles[row][col], )
+					}
 				}
+
 			}
 		}
-		
+
 		return 0;
 	}
 }
