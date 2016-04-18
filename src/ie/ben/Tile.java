@@ -140,7 +140,7 @@ public class Tile extends JPanel {
 
 	private void updateGame() {
 
-		if (checkLegalMoves()) { // &&
+		if (checkLegalMoves() && ReversiGame.players.get(GameEngine.currentPlayer) instanceof HumanPlayer) { // &&
 									// ReversiGame.players.get(GameEngine.currentPlayer)
 									// instanceof HumanPlayer) {
 
@@ -167,8 +167,18 @@ public class Tile extends JPanel {
 			}
 
 			System.out.println("Human turn");
-		} else {
-			System.out.println("AI turn");
+			
+			int index = ((AIPlayer) ReversiGame.players.get(GameEngine.currentPlayer)).selectMove();
+			System.out.println("AI turn, index is " + index);
+			GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2; 
+			
+			revalidate();
+			repaint();
+			
+		} else if(checkLegalMoves() && ReversiGame.players.get(GameEngine.currentPlayer) instanceof AIPlayer) {
+			int index = ((AIPlayer) ReversiGame.players.get(GameEngine.currentPlayer)).selectMove();
+			System.out.println("AI turn, index is " + index);
+			GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2; 
 		}
 	}
 

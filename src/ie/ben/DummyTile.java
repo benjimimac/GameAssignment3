@@ -10,6 +10,16 @@ public class DummyTile {
 	private boolean[] occupiedNeighbours;
 	private int weight;
 
+	public int getWeight() {
+		
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		
+		this.weight = weight;
+	}
+
 	public boolean getOccupiedNeighbour(int index) {
 
 		return occupiedNeighbours[index];
@@ -71,8 +81,10 @@ public class DummyTile {
 		this.occupiedBy = occupiedBy;
 		weight = 0;
 
+		this.occupiedNeighbours = new boolean[8];
+		
 		for (int i = 0; i < occupiedNeighbours.length; i++) {
-
+			
 			this.occupiedNeighbours[i] = occupiedNeighbours[i];
 		}
 	}
