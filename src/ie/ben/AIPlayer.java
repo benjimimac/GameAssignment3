@@ -32,10 +32,10 @@ public class AIPlayer extends PlayerObject {
 
 				if (ReversiGame.tiles[row][col].isOccupied()) {
 
-					dummyTile = new DummyTile(new Point(row, col), true, ReversiGame.tiles[row][col].getOccupiedBy());
+					dummyTile = new DummyTile(new Point(row, col), true, ReversiGame.tiles[row][col].getOccupiedBy(), ReversiGame.tiles[row][col].getOccupiedNeighbours());
 				} else {
 
-					dummyTile = new DummyTile(new Point(row, col), false, 0);
+					dummyTile = new DummyTile(new Point(row, col), false, 0, ReversiGame.tiles[row][col].getOccupiedNeighbours());
 				}
 
 				dummyTiles[row][col] = dummyTile;
@@ -96,7 +96,7 @@ public class AIPlayer extends PlayerObject {
 
 						if (checkLegalMoveDummy(GameEngine.currentPlayer, potentialMoveDummy.getLocation(), row, col, dummyTiles, legalMovesDummy)) {
 
-							addToLegalMovesDummy(potentialMoveDummy);
+							legalMovesDummy.add(potentialMoveDummy);
 						}
 					}
 
@@ -415,7 +415,7 @@ public class AIPlayer extends PlayerObject {
 					// col);
 					if (checkLegalMove(location, row, col, dummyTiles, currentPlayer)) {
 
-						changeTiles(row, col, location, currentPlayer, dummyTiles);
+						changeDummyTiles(row, col, location, currentPlayer, dummyTiles);
 					}
 				}
 
@@ -469,24 +469,24 @@ public class AIPlayer extends PlayerObject {
 		return false;
 	}
 	
-	public int takeTiles(int addX, int addY, Point location, int currentPlayer, DummyTile[][] dummyTiles) {
+	public void changeDummyTiles(int addX, int addY, Point location, int currentPlayer, DummyTile[][] dummyTiles) {
 
 		Point point = new Point(location.getLocation().x + addX, location.getLocation().y + addY);
-		int tilesTaken = 0;
+		//int tilesTaken = 0;
 
 		while (dummyTiles[point.getLocation().x][point.getLocation().y].isOccupied()
 				&& dummyTiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
 
-			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].setOccupiedBy(currentPlayer);
-			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].revalidate();
-			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].repaint();
-			System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
+			dummyTiles[point.getLocation().x][point.getLocation().y].setOccupiedBy(currentPlayer);
+			//dummyTiles[point.getLocation().x][point.getLocation().y].revalidate();
+			//dummyTiles[point.getLocation().x][point.getLocation().y].repaint();
+			//System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
 			// System.out.println();
 			point.translate(addX, addY);
-			tilesTaken += 1;
+			//tilesTaken += 1;
 		}
 
-		return tilesTaken;
+		//return tilesTaken;
 	}
 }
 
