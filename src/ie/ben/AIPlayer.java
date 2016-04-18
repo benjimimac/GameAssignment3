@@ -277,7 +277,7 @@ public class AIPlayer extends PlayerObject {
 					
 					if(GameEngine.containsPotentialMove(ReversiGame.tiles[row][col])) {
 						
-						addToPotentialMoves(tempDummyTiles[row][col], )
+						addToPotentialMovesDummy(tempDummyTiles[row][col], potentialMovesDummy                        fd            dvfvv     dvd);
 					}
 				}
 
@@ -285,5 +285,51 @@ public class AIPlayer extends PlayerObject {
 		}
 
 		return 0;
+	}
+
+	public int getMoveWeights(ArrayList<DummyTile> potentialMovesDummy, ArrayList<DummyTile> legalMovesDummy,
+			DummyTile[][] dummyTiles, int player, int index) {
+
+		if (legalMovesDummy.isEmpty()) {
+			// Calculate the score at this point and return the difference
+			return 0;
+		} else {
+
+			// In a loop make copies of the array and ArrayList
+			for (int i = 0; i < legalMovesDummy.size(); i++) {
+
+				// Make a temp 2d array of all dummy tiles
+				DummyTile[][] tempDummyTiles = new DummyTile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
+				for (int row = 0; row < ReversiGame.TILES_PER; row++) {
+
+					for (int col = 0; col < ReversiGame.TILES_PER; col++) {
+
+						DummyTile tempDummyTile = new DummyTile(new Point(row, col), dummyTiles[row][col].isOccupied(),
+								dummyTiles[row][col].getOccupiedBy(), dummyTiles[row][col].getOccupiedNeighbours());
+						
+						tempDummyTiles[row][col] = tempDummyTile;
+					}
+				}
+				
+				//Copy the potentialMoves dummy to a new ArrayList
+				ArrayList<DummyTile> tempPotentialMovesDummy = new ArrayList<DummyTile>();
+				
+				for(int j = 0; j < potentialMovesDummy.size(); j++) {
+					
+					tempPotentialMovesDummy.add(tempDummyTiles[potentialMovesDummy.get(j).getLocation().x][potentialMovesDummy.get(j).getLocation().y]);
+				}
+				
+				//Copy the legalMovesDummy to a new ArrayList
+				ArrayList<DummyTile> tempLegalMovesDummy = new ArrayList<DummyTile>();
+				
+				for(int j = 0; j < legalMovesDummy.size(); j++) {
+					
+					tempLegalMovesDummy.add(tempDummyTiles[legalMovesDummy.get(j).getLocation().x][legalMovesDummy.get(j).getLocation().y]);
+				}
+				
+				
+			}
+			return 0;
+		}
 	}
 }

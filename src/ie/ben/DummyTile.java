@@ -23,7 +23,11 @@ public class DummyTile {
 
 		this.occupiedNeighbours = occupiedNeighbours;
 	}
+	
+	public boolean[] getOccupiedNeighbours() {
 
+		return occupiedNeighbours;
+	}
 	
 	public Point getLocation() {
 
