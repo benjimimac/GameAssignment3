@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
-public class GameEngine extends JFrame{
+public class GameEngine extends JFrame {
 
 	public static ArrayList<Tile> occupiedTiles; // Store updated occupied tiles
 													// here
@@ -87,12 +87,12 @@ public class GameEngine extends JFrame{
 		}
 	}
 
-	private void setAdjacentTiles() {
-
-		// Initialise a new empty ArrayList
-		adjacentTiles = new ArrayList<Point>();
-
-	}
+//	private void setAdjacentTiles() {
+//
+//		// Initialise a new empty ArrayList
+//		adjacentTiles = new ArrayList<Point>();
+//
+//	}
 
 	private static void initPotentialMoves() {
 
@@ -123,11 +123,9 @@ public class GameEngine extends JFrame{
 			}
 		}
 
-		// System.out.println("Current potential moves are :");
-		for (int i = 0; i < potentialMoves.size(); i++) {
-			// System.out.println(potentialMoves.get(i).getLocation());
-		}
 	}
+
+	
 
 	// Method that checks if a tiles location point is already in the
 	// potentialMoves ArrayList
@@ -306,7 +304,7 @@ public class GameEngine extends JFrame{
 		}
 	}
 
-	// Method that checks if a tiles location point is already in the
+	// Method that checks if a tile is already in the
 	// potentialMoves ArrayList
 	// Returns true or false
 	public static boolean containsLegalMove(Tile tile) {
@@ -366,7 +364,7 @@ public class GameEngine extends JFrame{
 	public static boolean updateGame() {
 
 		boolean gameOver = false;
-		
+
 		// Change player
 		currentPlayer = (currentPlayer + 1) % 2;
 
@@ -383,36 +381,35 @@ public class GameEngine extends JFrame{
 		// player
 		if (legalMoves.isEmpty()) {
 
-			gameOver = false; 
+			gameOver = false;
 			// If potentialMoves is not empty switch to next player and
 			// reset/repaint components
 			if (!potentialMoves.isEmpty()) {
 
-				//Change to next player
+				// Change to next player
 				currentPlayer = (currentPlayer + 1) % 2;
 
-				//Repaint the text areas
+				// Repaint the text areas
 				ReversiGame.setTextAreaColour();
 
-				//Reset/repaint legalMoves
+				// Reset/repaint legalMoves
 				resetAllLegalTiles();
 				setLegalMoves();
 				repaintLegalMoveTiles();
 
-				//If there are no legal moves for second player then game over
+				// If there are no legal moves for second player then game over
 				if (legalMoves.isEmpty()) {
 					gameOver = true;
 					currentPlayer = 0;
-					//Create a dialog that gives scores and option for new game
-					//ReversiGame.endMessage.setVisible(true);
-					
-					//public static void endGameDialog() {
-						
-//						GameOver endMessage = new GameOver(this);
-//				        endMessage.setVisible(false);
-//				        //add(endMessage);
-					
-					
+					// Create a dialog that gives scores and option for new game
+					// ReversiGame.endMessage.setVisible(true);
+
+					// public static void endGameDialog() {
+
+					// GameOver endMessage = new GameOver(this);
+					// endMessage.setVisible(false);
+					// //add(endMessage);
+
 					System.out.println("Game Over");
 				}
 
@@ -423,7 +420,7 @@ public class GameEngine extends JFrame{
 
 			}
 		}
-		
+
 		return gameOver;
-	}	
+	}
 }

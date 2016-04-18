@@ -160,7 +160,8 @@ public class Tile extends JPanel {
 
 			if (gameOver) {
 
-				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount, ReversiGame.players.get(1).pieceCount);
+				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
+						ReversiGame.players.get(1).pieceCount);
 				endMessage.setVisible(true);
 				// add(endMessage);
 			}
@@ -307,9 +308,8 @@ public class Tile extends JPanel {
 		return false;
 	}
 
-	public void removeTileFromPotentialMoves() {
-
-		GameEngine.removeFromPotentialMoves(this);
+	private void removeTileFromPotentialMoves() {
+		GameEngine.potentialMoves.remove(this);
 	}
 
 	public void addNeighbours() {
@@ -332,6 +332,11 @@ public class Tile extends JPanel {
 
 		// Set the value of occupiedNeghbours at a given index to true
 		return occupiedNeighbours[index];
+	}
+
+	public boolean[] getOccupiedNeighbours() {
+
+		return occupiedNeighbours;
 	}
 
 	public void setOccupied(boolean occupied) {
