@@ -358,10 +358,22 @@ public class AIPlayer extends PlayerObject {
 						tempDummyTiles[row][col] = tempDummyTile;
 					}
 				}
-				
-				//Create new copies of the two ArrayLists that can be modified
+
+				// Create new copies of the two ArrayLists that can be modified
 				ArrayList<DummyTile> tempPotentialMovesDummy = new ArrayList<DummyTile>();
 				ArrayList<DummyTile> tempLegalMovesDummy = new ArrayList<DummyTile>();
+
+				for (DummyTile potentialMoveDummy : potentialMovesDummy) {
+
+					tempPotentialMovesDummy.add(
+							tempDummyTiles[potentialMoveDummy.getLocation().x][potentialMoveDummy.getLocation().y]);
+				}
+
+				for (DummyTile legalMoveDummy : legalMovesDummy) {
+
+					tempPotentialMovesDummy.add(
+							tempDummyTiles[legalMoveDummy.getLocation().x][legalMoveDummy.getLocation().y]);
+				}
 			}
 
 			return 0;
