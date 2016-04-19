@@ -242,6 +242,7 @@ public class AIPlayer extends PlayerObject {
 
 	public int selectMove() {
 
+		int temp = 0;
 		// System.out.println("selectMove");
 		for (int index = 0; index < GameEngine.legalMoves.size(); index++) {
 			// System.out.println("For loop index is " + index + "
@@ -290,12 +291,19 @@ public class AIPlayer extends PlayerObject {
 
 				legalMovesDummy.add(tempDummyTiles[legalMove.getLocation().x][legalMove.getLocation().y]);
 			}
-System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
+			System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
 
-			//int test = 
-			legalMovesDummy.get(index).setWeight(getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles, GameEngine.currentPlayer,
-					ReversiGame.players.get(0).getPieceCount(), ReversiGame.players.get(1).getPieceCount()));
-//			System.out.println("test is " + test);
+			// int test =
+			legalMovesDummy.get(index)
+					.setWeight(getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles,
+							GameEngine.currentPlayer, ReversiGame.players.get(0).getPieceCount(),
+							ReversiGame.players.get(1).getPieceCount()));
+			System.out.println("weight is " + legalMovesDummy.get(index).getWeight());
+			if (legalMovesDummy.get(index).getWeight() > legalMovesDummy.get(0).getWeight()) {
+				System.out.println("BIGGER");
+			} else {
+				System.out.println("NOT BIGGER");
+			}
 			// System.out.println("legalMoves is size " +
 			// legalMovesDummy.size());
 		}
@@ -307,38 +315,44 @@ System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
 			DummyTile[][] dummyTiles, int currentPlayer, int score1, int score2) { // ,
 																					// int
 																					// index)
-																					// {
-		 
+		
+		int temp = 0; // {
 
 		if (legalMovesDummy.isEmpty()) {
 			int home = 0;
 			int away = 3;
-			
-			if(currentPlayer == 0 && score1 > score2) {
-				return score1 - score2;
-			} else if(currentPlayer == 1 && score2 > score1) {
-				return score2 - score1;
-			}
-			//int temp = score1 - score2;
-//			System.out.println("score1 is  " + score1 + ", score2 is " + score2);
-//			temp = Math.abs(temp);
-//			System.out.println("temp is  " + temp);
-//			if(score1 > score2) {
-//				
-//				temp = score1 - score2;
-//			} else  if(score2 > score1){
-//				
-//				temp = score2 - score1;
-//			} else {
-//				
-//				return 1;
+
+//			if (currentPlayer == 0 && score1 > score2) {
+//				return score1 - score2;
+//			} else if (currentPlayer == 1 && score2 > score1) {
+//				return score2 - score1;
 //			}
-//			return away - home;
-			return 1;
+			// int temp = score1 - score2;
+			// System.out.println("score1 is " + score1 + ", score2 is " +
+			// score2);
+			// temp = Math.abs(temp);
+			// System.out.println("temp is " + temp);
+			// if(score1 > score2) {
+			//
+			// temp = score1 - score2;
+			// } else if(score2 > score1){
+			//
+			// temp = score2 - score1;
+			// } else {
+			//
+			// return 1;
+			// }
+			// return away - home;
+			return Math.abs(score1 - score2);
 		} else {
-			//int ideal = 0;
+			// int ideal = 0;
+			int tempScore1 = 0;
+			int tempScore2 = 0;
 
 			for (int index = 0; index < legalMovesDummy.size(); index++) {
+
+				tempScore1 = score1;
+				tempScore2 = score2;
 				// System.out.println("Inside a for loop - " + index);
 				// Create a new 2d array to store dummyTiles that can be
 				// modified in the for loop
@@ -372,9 +386,6 @@ System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
 							.add(tempDummyTiles[legalMoveDummy.getLocation().x][legalMoveDummy.getLocation().y]);
 				}
 
-				int tempScore1 = score1;
-				int tempScore2 = score2;
-				
 				tempLegalMovesDummy.get(index).setOccupied(true);
 				tempLegalMovesDummy.get(index).setOccupiedBy(currentPlayer);
 				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(index));
@@ -385,34 +396,36 @@ System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
 				setDummyNeighboursOccupiedNeighbours(tempDummyTiles, tempPotentialMovesDummy,
 						tempLegalMovesDummy.get(index).getLocation());
 				// potentialMovesDummy, location);
-				int temp = takeDummyTiles(tempLegalMovesDummy.get(index).getLocation(), tempDummyTiles, tempLegalMovesDummy,
+				temp = takeDummyTiles(tempLegalMovesDummy.get(index).getLocation(), tempDummyTiles, tempLegalMovesDummy,
 						currentPlayer);
-				
-				if(currentPlayer == 0) {
-//					tempScore1 = tempScore1 + temp + 1;
-					score1 += temp;
-					score2 -= temp;
-				} else{
-					score1 -= temp;
-					score2 += temp;
+
+				if (currentPlayer == 0) {
+					// tempScore1 = tempScore1 + temp + 1;
+					tempScore1 += temp + 1;
+					tempScore2 -= temp;
+				} else {
+					tempScore1 -= temp;
+					tempScore2 += temp + 1;
 				}
 				tempLegalMovesDummy = setLegalMovesDummy(tempPotentialMovesDummy, dummyTiles, currentPlayer);
 				// System.out.println("legalMoves size is " +
 				// legalMovesDummy.size());
 				// legalMovesDummy.get(index).setWeight(
-				int test = getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy, tempDummyTiles,
-						(currentPlayer + 1) % 2, score1, score2);// );
+				// int test =
+				legalMovesDummy.get(index).setWeight(getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy,
+						tempDummyTiles, (currentPlayer + 1) % 2, tempScore1, tempScore2));// );
+System.out.println(legalMovesDummy.get(index).getWeight());
+				if (legalMovesDummy.get(index).getWeight() > 0 && legalMovesDummy.get(index).getWeight() < 10) {
 
-				if (test > 0 && test < 10) {
-
-					return test;
+					return legalMovesDummy.get(index).getWeight();
 					// System.out.println("breaking from loop");
-//					break;
+					// break;
 				}
 			}
 
-			return 0;
 		}
+
+		return temp;
 	}
 
 	public ArrayList<DummyTile> setLegalMovesDummy(ArrayList<DummyTile> potentialMovesDummy, DummyTile[][] dummyTiles,
@@ -600,7 +613,7 @@ System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
 				index++;
 			}
 		}
-		
+
 		return tilesTaken;
 		// ReversiGame.players.get(GameEngine.currentPlayer).setPieceCount(tilesTaken
 		// + 1);
