@@ -327,7 +327,7 @@ public class GameEngine extends JFrame {
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].setOccupiedBy(currentPlayer);
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].revalidate();
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].repaint();
-			System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
+//			System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
 			// System.out.println();
 			point.translate(addX, addY);
 			tilesTaken += 1;

@@ -1,6 +1,7 @@
 package ie.ben;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class DummyTile {
 
@@ -75,7 +76,6 @@ public class DummyTile {
 	}
 
 	private void initDummyTile(Point location, boolean occupied, int occupiedBy, boolean[] occupiedNeighbours) {
-		System.out.println("getMoves");
 		this.location = location;
 		this.occupied = occupied;
 		this.occupiedBy = occupiedBy;
@@ -120,15 +120,15 @@ public class DummyTile {
 //		return false;
 //	}
 //
-//	public boolean checkLegalMovesDummy() {
-//
-//		if (AIPlayer.containsLegalMoveDummy(this)) {
-//
-//			return true;
-//		}
-//
-//		return false;
-//	}
+	public boolean checkLegalMovesDummy(ArrayList<DummyTile> legalMovesDummy) {
+
+		if (legalMovesDummy.contains(this)) {
+
+			return true;
+		}
+
+		return false;
+	}
 //
 //	public void removeTileFromPotentialMovesDummy() {
 //

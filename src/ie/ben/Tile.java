@@ -157,7 +157,7 @@ public class Tile extends JPanel {
 			takeTiles();
 
 			boolean gameOver = GameEngine.updateGame();
-
+System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 			if (gameOver) {
 
 				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
@@ -169,7 +169,18 @@ public class Tile extends JPanel {
 			System.out.println("Human turn");
 
 			int index = ((AIPlayer) ReversiGame.players.get(1)).selectMove();
-			System.out.println("AI turn, index is " + index);
+//			GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
+//			gameOver = GameEngine.updateGame();
+//
+//			if (gameOver) {
+//
+//				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
+//						ReversiGame.players.get(1).pieceCount);
+//				endMessage.setVisible(true);
+//				// add(endMessage);
+//			}
+			
+//			System.out.println("AI turn, index is " + index);
 //			//GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
 //
 //			revalidate();
@@ -186,7 +197,7 @@ public class Tile extends JPanel {
 //			}
 //			
 //			takeTiles();
-			System.out.println("Finished move");
+//			System.out.println("Finished move");
 		}
 		// } else if(checkLegalMoves() &&
 		// ReversiGame.players.get(GameEngine.currentPlayer) instanceof
@@ -287,10 +298,10 @@ public class Tile extends JPanel {
 			}
 		}
 
-		for (int i = 0; i < 8; i++) {
-
-			// System.out.println(occupiedNeighbours[i]);
-		}
+//		for (int i = 0; i < 8; i++) {
+//
+//			// System.out.println(occupiedNeighbours[i]);
+//		}
 	}
 
 	// Checks is the tile is a candidate for a potential move
@@ -448,7 +459,7 @@ public class Tile extends JPanel {
 		}
 		ReversiGame.players.get(GameEngine.currentPlayer).setPieceCount(tilesTaken + 1);
 		ReversiGame.players.get((GameEngine.currentPlayer + 1) % 2).setPieceCount(-tilesTaken);
-		System.out.println("tilesTaken = " + tilesTaken);
+//		System.out.println("tilesTaken = " + tilesTaken);
 	}
 
 	// public int getRow() {
