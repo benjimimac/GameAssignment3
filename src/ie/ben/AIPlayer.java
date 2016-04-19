@@ -45,72 +45,72 @@ public class AIPlayer extends PlayerObject {
 		}
 	}
 
-	public void createLegalMovesDummy() {
+//	public void createLegalMovesDummy() {
+//
+//		legalMovesDummy = new ArrayList<DummyTile>();
+//
+//		for (DummyTile potentialMoveDummy : potentialMovesDummy) {
+//
+//			// Initialise a temporary index variable to 0
+//			int index = 0;
+//
+//			// Use a nested loop to cycle through each row and col of the
+//			// surrounding tiles to check for legal moves
+//			for (int row = -1; row <= 1; row++) {
+//				// for(int row = potentialMove.getLocation().x - 1; row <=
+//				// potentialMove.getLocation().x + 1; row++) {
+//
+//				for (int col = -1; col <= 1; col++) {
+//					// for(int col = potentialMove.getLocation().y - 1; col <=
+//					// potentialMove.getLocation().y + 1; col++) {
+//
+//					if ((potentialMoveDummy.getLocation().x < 1 && row < 0)
+//							|| (potentialMoveDummy.getLocation().x > 6 && row > 0)) {
+//						// if(row < 0 || row > 7) {
+//
+//						index += 3;
+//						// System.out.println("Inside the row break statement");
+//						break;
+//					}
+//
+//					if ((potentialMoveDummy.getLocation().y < 1 && col < 0)
+//							|| (potentialMoveDummy.getLocation().y > 6 && col > 0)) {
+//						// if(col < 0 || col > 7) {
+//
+//						index++;
+//						continue;
+//					}
+//
+//					// If (0, 0) continue to next iteration of loop
+//					if (row == 0 && col == 0) {
+//						// if(potentialMove.getLocation().equals(new Point(row,
+//						// col))) {
+//						continue;
+//					}
+//
+//					// System.out.println("index is " + index + ", location is "
+//					// + potentialMove.getLocation());
+//					// System.out.println("index is " + index + ", location is
+//					// (" + row + ", " + col + ")");
+//					// If the neighbour at (row, col) is occupied - check if
+//					// legal move
+//					if (potentialMoveDummy.getOccupiedNeighbour(index)) {
+//
+//						if (checkLegalMoveDummy(GameEngine.currentPlayer, potentialMoveDummy.getLocation(), row, col,
+//								dummyTiles, legalMovesDummy)) {
+//
+//							legalMovesDummy.add(potentialMoveDummy);
+//						}
+//					}
+//
+//					index++;
+//				}
+//			}
+//		}
+//	}
 
-		legalMovesDummy = new ArrayList<DummyTile>();
-
-		for (DummyTile potentialMoveDummy : potentialMovesDummy) {
-
-			// Initialise a temporary index variable to 0
-			int index = 0;
-
-			// Use a nested loop to cycle through each row and col of the
-			// surrounding tiles to check for legal moves
-			for (int row = -1; row <= 1; row++) {
-				// for(int row = potentialMove.getLocation().x - 1; row <=
-				// potentialMove.getLocation().x + 1; row++) {
-
-				for (int col = -1; col <= 1; col++) {
-					// for(int col = potentialMove.getLocation().y - 1; col <=
-					// potentialMove.getLocation().y + 1; col++) {
-
-					if ((potentialMoveDummy.getLocation().x < 1 && row < 0)
-							|| (potentialMoveDummy.getLocation().x > 6 && row > 0)) {
-						// if(row < 0 || row > 7) {
-
-						index += 3;
-						// System.out.println("Inside the row break statement");
-						break;
-					}
-
-					if ((potentialMoveDummy.getLocation().y < 1 && col < 0)
-							|| (potentialMoveDummy.getLocation().y > 6 && col > 0)) {
-						// if(col < 0 || col > 7) {
-
-						index++;
-						continue;
-					}
-
-					// If (0, 0) continue to next iteration of loop
-					if (row == 0 && col == 0) {
-						// if(potentialMove.getLocation().equals(new Point(row,
-						// col))) {
-						continue;
-					}
-
-					// System.out.println("index is " + index + ", location is "
-					// + potentialMove.getLocation());
-					// System.out.println("index is " + index + ", location is
-					// (" + row + ", " + col + ")");
-					// If the neighbour at (row, col) is occupied - check if
-					// legal move
-					if (potentialMoveDummy.getOccupiedNeighbour(index)) {
-
-						if (checkLegalMoveDummy(GameEngine.currentPlayer, potentialMoveDummy.getLocation(), row, col,
-								dummyTiles, legalMovesDummy)) {
-
-							legalMovesDummy.add(potentialMoveDummy);
-						}
-					}
-
-					index++;
-				}
-			}
-		}
-	}
-
-	public boolean checkLegalMoveDummy(/* Color colour, */ int player, Point location, int addX, int addY,
-			DummyTile[][] dummyTiles, ArrayList<DummyTile> legalMovesDummy) {
+	public boolean checkLegalMoveDummy(Point location, int addX, int addY, DummyTile[][] dummyTiles,
+			ArrayList<DummyTile> legalMovesDummy, int currentPlayer) {
 
 		// Instantiate the leagalMoves ArrayList
 		// legalMoves = new ArrayList<Tile>();
@@ -224,47 +224,45 @@ public class AIPlayer extends PlayerObject {
 		dummyPotentialMoves.remove(dummyTile);
 	}
 
-	// // If a tile is occupied set each neighbours occupiedNeighbours array at
+	// If a tile is occupied set each neighbours occupiedNeighbours array at
 	// the
-	// // relevant index
-	// public void setNeighboursOccupiedNeighbours(DummyTile[][] dummyTiles, int
-	// row, int col,
-	// ArrayList<DummyTile> dummyPotentialMoves) {
-	//
-	// int index = 7;
-	//
-	// for (int rows = row - 1; rows <= row + 1; rows++) {
-	//
-	// for (int cols = col - 1; cols <= col + 1; cols++) {
-	//
-	// if (rows < 0 || rows > 7) {
-	//
-	// index -= 3;
-	// break;
-	// }
-	//
-	// if (cols < 0 || cols > 7) {
-	//
-	// index--;
-	// continue;
-	// }
-	//
-	// if (row == rows && col == cols) {
-	//
-	// continue;
-	// }
-	//
-	// dummyTiles[rows][cols].setOccupiedNeighbour(index);
-	//
-	// if (!dummyTiles[rows][cols].isOccupied() &&
-	// !containsPotentialMoveDummy(dummyTiles[rows][cols])) {
-	// addToPotentialMovesDummy(dummyTiles[rows][cols], dummyPotentialMoves);
-	// }
-	//
-	// index--;
-	// }
-	// }
-	// }
+	// relevant index
+	public void setNeighboursOccupiedNeighbours(DummyTile[][] dummyTiles, int row, int col,
+			ArrayList<DummyTile> dummyPotentialMoves) {
+
+		int index = 7;
+
+		for (int rows = row - 1; rows <= row + 1; rows++) {
+
+			for (int cols = col - 1; cols <= col + 1; cols++) {
+
+				if (rows < 0 || rows > 7) {
+
+					index -= 3;
+					break;
+				}
+
+				if (cols < 0 || cols > 7) {
+
+					index--;
+					continue;
+				}
+
+				if (row == rows && col == cols) {
+
+					continue;
+				}
+
+				dummyTiles[rows][cols].setOccupiedNeighbour(index);
+
+				if (!dummyTiles[rows][cols].isOccupied() && !dummyPotentialMoves.contains(dummyTiles[rows][cols])) {
+					dummyPotentialMoves.add(dummyTiles[rows][cols]);
+				}
+
+				index--;
+			}
+		}
+	}
 
 	// Method that checks if a tile is already in the
 	// potentialMoves ArrayList
@@ -295,7 +293,7 @@ public class AIPlayer extends PlayerObject {
 							ReversiGame.tiles[row][col].getOccupiedNeighbours());
 					// System.out.println(row + ", " + col);
 					tempDummyTiles[row][col] = tempDummyTile;
-					
+
 					// if
 					// (GameEngine.containsPotentialMove(ReversiGame.tiles[row][col]))
 					// {
@@ -314,12 +312,11 @@ public class AIPlayer extends PlayerObject {
 					// System.out.println(row + ", " + col);
 				}
 			}
-			
+
 			// Fill the two dummy ArrayLists
 			for (Tile potentialMove : GameEngine.potentialMoves) {
 
-				potentialMovesDummy
-						.add(tempDummyTiles[potentialMove.getLocation().x][potentialMove.getLocation().y]);
+				potentialMovesDummy.add(tempDummyTiles[potentialMove.getLocation().x][potentialMove.getLocation().y]);
 			}
 
 			for (Tile legalMove : GameEngine.legalMoves) {
@@ -327,8 +324,7 @@ public class AIPlayer extends PlayerObject {
 				legalMovesDummy.add(tempDummyTiles[legalMove.getLocation().x][legalMove.getLocation().y]);
 			}
 
-			int test = getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles,
-					GameEngine.currentPlayer);
+			int test = getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles, GameEngine.currentPlayer);
 			// System.out.println(test);
 		}
 		System.out.println("End of selectMove");
@@ -347,16 +343,16 @@ public class AIPlayer extends PlayerObject {
 
 				// Create a new 2d array to store dummyTiles that can be
 				// modified in the for loop
-				DummyTile[][] tempDummyTiles = new DummyTile[8][8];//[dummyTiles.length][dummyTiles[0].length];
+				DummyTile[][] tempDummyTiles = new DummyTile[8][8];// [dummyTiles.length][dummyTiles[0].length];
 
 				for (int row = 0; row < ReversiGame.TILES_PER; row++) {
 
 					for (int col = 0; col < ReversiGame.TILES_PER; col++) {
 
-//System.out.println(dummyTiles[row][col].getLocation());
+						// System.out.println(dummyTiles[row][col].getLocation());
 						DummyTile tempDummyTile = new DummyTile(new Point(row, col), dummyTiles[row][col].isOccupied(),
 								dummyTiles[row][col].getOccupiedBy(), dummyTiles[row][col].getOccupiedNeighbours());
-						
+
 						tempDummyTiles[row][col] = tempDummyTile;
 					}
 				}
@@ -376,11 +372,16 @@ public class AIPlayer extends PlayerObject {
 					tempLegalMovesDummy
 							.add(tempDummyTiles[legalMoveDummy.getLocation().x][legalMoveDummy.getLocation().y]);
 				}
-//				
-//				tempLegalMovesDummy.get(index).setOccupied();
-//				tempLegalMovesDummy.get(index).setOccupiedBy(player);
-//				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(index));
-//				legalMovesDummy.get(index).setWeight(getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy, tempDummyTiles, (player + 1) % 2));
+				//
+				tempLegalMovesDummy.get(index).setOccupied();
+				tempLegalMovesDummy.get(index).setOccupiedBy(player);
+				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(index));
+				setNeighboursOccupiedNeighbours(tempDummyTiles, tempLegalMovesDummy.get(index).getLocation().x,
+						tempLegalMovesDummy.get(index).getLocation().y, tempPotentialMovesDummy);
+				takeDummyTiles(tempLegalMovesDummy.get(index).getLocation(), tempDummyTiles, tempLegalMovesDummy,
+						currentPlayer);
+				// legalMovesDummy.get(index).setWeight(getMoveWeights(tempPotentialMovesDummy,
+				// tempLegalMovesDummy, tempDummyTiles, (player + 1) % 2));
 			}
 
 			return 0;
@@ -453,6 +454,78 @@ public class AIPlayer extends PlayerObject {
 		// }
 		// return tempWeight;
 		// }
+	}
+
+	public void takeDummyTiles(Point location, DummyTile[][] dummyTiles, ArrayList<DummyTile> legalMovesDummy,
+			int currentPlayer) {
+
+		int index = 0;
+		// int tilesTaken = 0;
+
+		// for(int row = getLocation().x - 1; row <= getLocation().x + 1; row++)
+		// {
+		for (int row = -1; row <= 1; row++) {
+
+			// for(int col = getLocation().y - 1; col <= getLocation().y + 1;
+			// col++) {
+			for (int col = -1; col <= 1; col++) {
+
+				if (location.getLocation().x + row < 0 || location.getLocation().x + row > 7) {
+					// System.out.println("row break");
+					index += 3;
+					break;
+				}
+
+				if (location.getLocation().y + col < 0 || location.getLocation().y + col > 7) {
+					// System.out.println("col continue");
+					index++;
+					continue;
+				}
+
+				if (location.equals(new Point(location.getLocation().x + row, location.getLocation().y + col))) {
+
+					continue;
+				}
+
+				if (dummyTiles[location.getLocation().x][location.getLocation().y].getOccupiedNeighbour(index)) {
+					// System.out.println("Tile.takeTiles method if statement -
+					// index is " + index + " - row/col is " + row + ", " +
+					// col);
+					if (checkLegalMoveDummy(location, row, col, dummyTiles, legalMovesDummy, currentPlayer)) {
+
+						takeTiles(row, col, location, dummyTiles, currentPlayer);
+					}
+				}
+
+				index++;
+			}
+		}
+		// ReversiGame.players.get(GameEngine.currentPlayer).setPieceCount(tilesTaken
+		// + 1);
+		// ReversiGame.players.get((GameEngine.currentPlayer + 1) %
+		// 2).setPieceCount(-tilesTaken);
+		// System.out.println("tilesTaken = " + tilesTaken);
+	}
+
+	public void takeTiles(int addX, int addY, Point location, DummyTile[][] dummyTiles, int currentPlayer) {
+
+		Point point = new Point(location.getLocation().x + addX, location.getLocation().y + addY);
+		int tilesTaken = 0;
+
+		while (dummyTiles[point.getLocation().x][point.getLocation().y].isOccupied()
+				&& dummyTiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
+
+			dummyTiles[point.getLocation().x][point.getLocation().y].setOccupiedBy(currentPlayer);
+			// dummyTiles[point.getLocation().x][point.getLocation().y].revalidate();
+			// dummyTiles[point.getLocation().x][point.getLocation().y].repaint();
+			// System.out.println("takeTiles method " + (point.x) + ", " +
+			// (point.y));
+			// System.out.println();
+			point.translate(addX, addY);
+			tilesTaken += 1;
+		}
+
+		// return tilesTaken;
 	}
 
 	public void setDummyNeighboursOccupiedNeighbours(DummyTile[][] dummyTiles, ArrayList<DummyTile> legalMovesDummy,
