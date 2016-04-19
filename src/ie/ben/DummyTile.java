@@ -75,12 +75,12 @@ public class DummyTile {
 	}
 
 	private void initDummyTile(Point location, boolean occupied, int occupiedBy, boolean[] occupiedNeighbours) {
-
+		System.out.println("getMoves");
 		this.location = location;
 		this.occupied = occupied;
 		this.occupiedBy = occupiedBy;
 		weight = 0;
-
+		
 		this.occupiedNeighbours = new boolean[8];
 		
 		for (int i = 0; i < occupiedNeighbours.length; i++) {

@@ -279,101 +279,118 @@ public class AIPlayer extends PlayerObject {
 	}
 
 	public int selectMove() {
+		//Instantiate the two ArrayLists
 		ArrayList<DummyTile> legalMovesDummy = new ArrayList<DummyTile>();
 		ArrayList<DummyTile> potentialMovesDummy = new ArrayList<DummyTile>();
-		System.out.println("selectMove");
+		//System.out.println("selectMove");
 		for (int index = 0; index < GameEngine.legalMoves.size(); index++) {
 
 			DummyTile[][] tempDummyTiles = new DummyTile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
 			for (int row = 0; row < ReversiGame.TILES_PER; row++) {
-				
+
 				for (int col = 0; col < ReversiGame.TILES_PER; col++) {
 
 					DummyTile tempDummyTile = new DummyTile(new Point(row, col),
 							ReversiGame.tiles[row][col].isOccupied(), ReversiGame.tiles[row][col].getOccupiedBy(),
 							ReversiGame.tiles[row][col].getOccupiedNeighbours());
-					System.out.println(row + ", " + col);
+//					System.out.println(row + ", " + col);
 					tempDummyTiles[row][col] = tempDummyTile;
 
-					if (GameEngine.containsPotentialMove(ReversiGame.tiles[row][col])) {
-						System.out.println("Select Move containsPotential if");
-						addToPotentialMovesDummy(tempDummyTiles[row][col], potentialMovesDummy);
-					}
-
-					if (GameEngine.containsLegalMove(ReversiGame.tiles[row][col])) {
-						System.out.println("Select Move containsLegal if");
-						addToLegalMovesDummy(tempDummyTiles[row][col], legalMovesDummy);
-					}
+//					if (GameEngine.containsPotentialMove(ReversiGame.tiles[row][col])) {
+//						System.out.println("Select Move containsPotential if");
+//						addToPotentialMovesDummy(tempDummyTiles[row][col]                                                    b            , potentialMovesDummy);
+//					}
+//
+//					if (GameEngine.containsLegalMove(ReversiGame.tiles[row][col])) {
+//						System.out.println("Select Move containsLegal if");
+//						addToLegalMovesDummy(tempDummyTiles[row][col], legalMovesDummy);
+//					}
+//					System.out.println(row + ", " + col);
+				}
+				
+				//Fill the two dummy ArrayLists
+				for(Tile potentialMove : GameEngine.potentialMoves) {
+					
+					potentialMovesDummy.add(tempDummyTiles[potentialMove.getLocation().x][potentialMove.getLocation().y]);
+				}
+				
+				for(Tile legalMove : GameEngine.legalMoves) {
+					
+					legalMovesDummy.add(tempDummyTiles[legalMove.getLocation().x][legalMove.getLocation().y]);
 				}
 
+				int test = getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles,
+						GameEngine.currentPlayer);
+//				System.out.println(test);
 			}
 		}
-
+		System.out.println("End of selectMove");
 		return 0;
 	}
 
 	public int getMoveWeights(ArrayList<DummyTile> potentialMovesDummy, ArrayList<DummyTile> legalMovesDummy,
 			DummyTile[][] dummyTiles, int player) { // , int index) {
 
-		if (legalMovesDummy.isEmpty()) {
-			// Calculate the score at this point and return the difference
-			return 0;
-		} else {
-
-			int tempWeight = Integer.MAX_VALUE;
-
-			// In a loop make copies of the array and ArrayList
-			for (int i = 0; i < legalMovesDummy.size(); i++) {
-
-				// Make a temp 2d array of all dummy tiles
-				DummyTile[][] tempDummyTiles = new DummyTile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
-				for (int row = 0; row < ReversiGame.TILES_PER; row++) {
-
-					for (int col = 0; col < ReversiGame.TILES_PER; col++) {
-
-						DummyTile tempDummyTile = new DummyTile(new Point(row, col), dummyTiles[row][col].isOccupied(),
-								dummyTiles[row][col].getOccupiedBy(), dummyTiles[row][col].getOccupiedNeighbours());
-
-						tempDummyTiles[row][col] = tempDummyTile;
-					}
-				}
-
-				// Copy the potentialMoves dummy to a new ArrayList
-				ArrayList<DummyTile> tempPotentialMovesDummy = new ArrayList<DummyTile>();
-
-				for (int j = 0; j < potentialMovesDummy.size(); j++) {
-
-					tempPotentialMovesDummy
-							.add(tempDummyTiles[potentialMovesDummy.get(j).getLocation().x][potentialMovesDummy.get(j)
-									.getLocation().y]);
-				}
-
-				// Copy the legalMovesDummy to a new ArrayList
-				ArrayList<DummyTile> tempLegalMovesDummy = new ArrayList<DummyTile>();
-
-				for (int j = 0; j < legalMovesDummy.size(); j++) {
-
-					tempLegalMovesDummy.add(tempDummyTiles[legalMovesDummy.get(j).getLocation().x][legalMovesDummy
-							.get(j).getLocation().y]);
-				}
-
-				// Set a dummyTile to be occupied by the current player
-				tempLegalMovesDummy.get(i).setOccupied();
-				tempLegalMovesDummy.get(i).setOccupiedBy(player);
-				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(i));
-				setDummyNeighboursOccupiedNeighbours(tempDummyTiles, tempLegalMovesDummy, tempPotentialMovesDummy,
-						tempLegalMovesDummy.get(i).getLocation());
-				legalMovesDummy.get(i).setWeight(
-						getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy, tempDummyTiles, (player + 1) % 2)); // ,
-																															// i);
-
-				if (legalMovesDummy.get(i).getWeight() < tempWeight) {
-
-					tempWeight = legalMovesDummy.get(i).getWeight();
-				}
-			}
-			return tempWeight;
-		}
+//		if (legalMovesDummy.isEmpty()) {
+//			// Calculate the score at this point and return the difference
+//			return 0;
+//		} else {
+//
+//			int tempWeight = Integer.MAX_VALUE;
+//
+//			// In a loop make copies of the array and ArrayList
+//			for (int i = 0; i < legalMovesDummy.size(); i++) {
+//
+//				// Make a temp 2d array of all dummy tiles
+//				DummyTile[][] tempDummyTiles = new DummyTile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
+//				for (int row = 0; row < ReversiGame.TILES_PER; row++) {
+//
+//					for (int col = 0; col < ReversiGame.TILES_PER; col++) {
+//						
+//						DummyTile tempDummyTile = new DummyTile(new Point(row, col), dummyTiles[row][col].isOccupied(),
+//								dummyTiles[row][col].getOccupiedBy(), dummyTiles[row][col].getOccupiedNeighbours());
+//						
+//						tempDummyTiles[row][col] = tempDummyTile;
+//						System.out.println("getMoveWeights - " + row + ", " + col);
+//					}
+//				}
+//
+//				// Copy the potentialMoves dummy to a new ArrayList
+//				ArrayList<DummyTile> tempPotentialMovesDummy = new ArrayList<DummyTile>();
+//
+//				for (int j = 0; j < potentialMovesDummy.size(); j++) {
+//
+//					tempPotentialMovesDummy
+//							.add(tempDummyTiles[potentialMovesDummy.get(j).getLocation().x][potentialMovesDummy.get(j)
+//									.getLocation().y]);
+//				}
+//
+//				// Copy the legalMovesDummy to a new ArrayList
+//				ArrayList<DummyTile> tempLegalMovesDummy = new ArrayList<DummyTile>();
+//
+//				for (int j = 0; j < legalMovesDummy.size(); j++) {
+//
+//					tempLegalMovesDummy.add(tempDummyTiles[legalMovesDummy.get(j).getLocation().x][legalMovesDummy
+//							.get(j).getLocation().y]);
+//				}
+//
+//				// Set a dummyTile to be occupied by the current player
+//				tempLegalMovesDummy.get(i).setOccupied();
+//				tempLegalMovesDummy.get(i).setOccupiedBy(player);
+//				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(i));
+//				setDummyNeighboursOccupiedNeighbours(tempDummyTiles, tempLegalMovesDummy, tempPotentialMovesDummy,
+//						tempLegalMovesDummy.get(i).getLocation());
+//				legalMovesDummy.get(i).setWeight(
+//						getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy, tempDummyTiles, (player + 1) % 2)); // ,
+//																															// i);
+//
+//				if (legalMovesDummy.get(i).getWeight() < tempWeight) {
+//
+//					tempWeight = legalMovesDummy.get(i).getWeight();
+//				}
+//			}
+//			return tempWeight;
+//		}
 	}
 
 	public void setDummyNeighboursOccupiedNeighbours(DummyTile[][] dummyTiles, ArrayList<DummyTile> legalMovesDummy,

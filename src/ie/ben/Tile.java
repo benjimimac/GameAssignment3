@@ -140,9 +140,9 @@ public class Tile extends JPanel {
 
 	private void updateGame() {
 
-		if (checkLegalMoves() && ReversiGame.players.get(GameEngine.currentPlayer) instanceof HumanPlayer) { // &&
-									// ReversiGame.players.get(GameEngine.currentPlayer)
-									// instanceof HumanPlayer) {
+		if (checkLegalMoves() ) {//&& ReversiGame.players.get(GameEngine.currentPlayer) instanceof HumanPlayer) { // &&
+			// ReversiGame.players.get(GameEngine.currentPlayer)
+			// instanceof HumanPlayer) {
 
 			// Update the tile properties before calling a static method from
 			// GameEngine
@@ -153,7 +153,7 @@ public class Tile extends JPanel {
 			addNeighbours();
 			revalidate();
 			repaint();
-			addToOccupied();
+			//addToOccupied();
 			takeTiles();
 
 			boolean gameOver = GameEngine.updateGame();
@@ -167,19 +167,35 @@ public class Tile extends JPanel {
 			}
 
 			System.out.println("Human turn");
-			
-			int index = ((AIPlayer) ReversiGame.players.get(GameEngine.currentPlayer)).selectMove();
+
+			int index = ((AIPlayer) ReversiGame.players.get(1)).selectMove();
 			System.out.println("AI turn, index is " + index);
-			GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2; 
-			
-			revalidate();
-			repaint();
-			
-		} else if(checkLegalMoves() && ReversiGame.players.get(GameEngine.currentPlayer) instanceof AIPlayer) {
-			int index = ((AIPlayer) ReversiGame.players.get(GameEngine.currentPlayer)).selectMove();
-			System.out.println("AI turn, index is " + index);
-			GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2; 
+//			//GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
+//
+//			revalidate();
+//			repaint();
+
+//			gameOver = GameEngine.updateGame();
+//
+//			if (gameOver) {
+//
+//				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
+//						ReversiGame.players.get(1).pieceCount);
+//				endMessage.setVisible(true);
+//				// add(endMessage);
+//			}
+//			
+//			takeTiles();
+			System.out.println("Finished move");
 		}
+		// } else if(checkLegalMoves() &&
+		// ReversiGame.players.get(GameEngine.currentPlayer) instanceof
+		// AIPlayer) {
+		// int index = ((AIPlayer)
+		// ReversiGame.players.get(GameEngine.currentPlayer)).selectMove();
+		// System.out.println("AI turn, index is " + index);
+		// GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
+		// }
 	}
 
 	private void initEmptyTile(Point location) {
