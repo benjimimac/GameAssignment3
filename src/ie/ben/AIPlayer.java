@@ -244,11 +244,12 @@ public class AIPlayer extends PlayerObject {
 
 		// System.out.println("selectMove");
 		for (int index = 0; index < GameEngine.legalMoves.size(); index++) {
-			System.out.println("For loop index is " + index + " !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+			// System.out.println("For loop index is " + index + "
+			// !!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			// Instantiate the two ArrayLists
 			ArrayList<DummyTile> legalMovesDummy = new ArrayList<DummyTile>();
 			ArrayList<DummyTile> potentialMovesDummy = new ArrayList<DummyTile>();
-			
+
 			DummyTile[][] tempDummyTiles = new DummyTile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
 			for (int row = 0; row < ReversiGame.TILES_PER; row++) {
 
@@ -289,49 +290,56 @@ public class AIPlayer extends PlayerObject {
 
 				legalMovesDummy.add(tempDummyTiles[legalMove.getLocation().x][legalMove.getLocation().y]);
 			}
+System.out.println(ReversiGame.players.get(0).getPieceCount() + " pieceCount");
 
-			int test = getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles, GameEngine.currentPlayer);
-			System.out.println();
-			System.out.println("legalMoves is size " + legalMovesDummy.size());
+			//int test = 
+			legalMovesDummy.get(index).setWeight(getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles, GameEngine.currentPlayer,
+					ReversiGame.players.get(0).getPieceCount(), ReversiGame.players.get(1).getPieceCount()));
+//			System.out.println("test is " + test);
+			// System.out.println("legalMoves is size " +
+			// legalMovesDummy.size());
 		}
-		System.out.println("End of selectMove");
+		// System.out.println("End of selectMove");
 		return 0;
 	}
 
 	public int getMoveWeights(ArrayList<DummyTile> potentialMovesDummy, ArrayList<DummyTile> legalMovesDummy,
-			DummyTile[][] dummyTiles, int currentPlayer) { // , int index) {
-		System.out.println(currentPlayer);
+			DummyTile[][] dummyTiles, int currentPlayer, int score1, int score2) { // ,
+																					// int
+																					// index)
+																					// {
+		 
 
-		int home = 0;
-		int away = 0;
-
-		for (int row = 0; row < dummyTiles.length; row++) {
-
-			for (int col = 0; col < dummyTiles[row].length; col++) {
-
-				if (dummyTiles[row][col].isOccupied()) {
-
-					if (dummyTiles[row][col].getOccupiedBy() == 0) {
-
-						home++;
-					} else {
-						away++;
-					}
-				}
+		if (legalMovesDummy.isEmpty()) {
+			int home = 0;
+			int away = 3;
+			
+			if(currentPlayer == 0 && score1 > score2) {
+				return score1 - score2;
+			} else if(currentPlayer == 1 && score2 > score1) {
+				return score2 - score1;
 			}
-		}
-
-		if (away - home > 0 && away - home < 10) {// legalMovesDummy.isEmpty())
-													// {
-
-			System.out.println("home is " + home + ", away is " + away + " potentialMoves size is "
-					+ potentialMovesDummy.size() + ", legalMoves is size " + legalMovesDummy.size());
-			return away - home;
+			//int temp = score1 - score2;
+//			System.out.println("score1 is  " + score1 + ", score2 is " + score2);
+//			temp = Math.abs(temp);
+//			System.out.println("temp is  " + temp);
+//			if(score1 > score2) {
+//				
+//				temp = score1 - score2;
+//			} else  if(score2 > score1){
+//				
+//				temp = score2 - score1;
+//			} else {
+//				
+//				return 1;
+//			}
+//			return away - home;
+			return 1;
 		} else {
-			int ideal = 0;
+			//int ideal = 0;
 
 			for (int index = 0; index < legalMovesDummy.size(); index++) {
-				System.out.println("Inside a for loop - " + index);
+				// System.out.println("Inside a for loop - " + index);
 				// Create a new 2d array to store dummyTiles that can be
 				// modified in the for loop
 				DummyTile[][] tempDummyTiles = new DummyTile[dummyTiles.length][dummyTiles[0].length];
@@ -363,8 +371,11 @@ public class AIPlayer extends PlayerObject {
 					tempLegalMovesDummy
 							.add(tempDummyTiles[legalMoveDummy.getLocation().x][legalMoveDummy.getLocation().y]);
 				}
-				//
-				tempLegalMovesDummy.get(index).setOccupied();
+
+				int tempScore1 = score1;
+				int tempScore2 = score2;
+				
+				tempLegalMovesDummy.get(index).setOccupied(true);
 				tempLegalMovesDummy.get(index).setOccupiedBy(currentPlayer);
 				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(index));
 				// setNeighboursOccupiedNeighbours(tempDummyTiles,
@@ -374,24 +385,33 @@ public class AIPlayer extends PlayerObject {
 				setDummyNeighboursOccupiedNeighbours(tempDummyTiles, tempPotentialMovesDummy,
 						tempLegalMovesDummy.get(index).getLocation());
 				// potentialMovesDummy, location);
-				takeDummyTiles(tempLegalMovesDummy.get(index).getLocation(), tempDummyTiles, tempLegalMovesDummy,
+				int temp = takeDummyTiles(tempLegalMovesDummy.get(index).getLocation(), tempDummyTiles, tempLegalMovesDummy,
 						currentPlayer);
+				
+				if(currentPlayer == 0) {
+//					tempScore1 = tempScore1 + temp + 1;
+					score1 += temp;
+					score2 -= temp;
+				} else{
+					score1 -= temp;
+					score2 += temp;
+				}
 				tempLegalMovesDummy = setLegalMovesDummy(tempPotentialMovesDummy, dummyTiles, currentPlayer);
 				// System.out.println("legalMoves size is " +
 				// legalMovesDummy.size());
 				// legalMovesDummy.get(index).setWeight(
 				int test = getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy, tempDummyTiles,
-						(currentPlayer + 1) % 2);// );
+						(currentPlayer + 1) % 2, score1, score2);// );
 
 				if (test > 0 && test < 10) {
 
-					ideal = test;
-					System.out.println("breaking from loop");
-					break;
+					return test;
+					// System.out.println("breaking from loop");
+//					break;
 				}
 			}
 
-			return ideal;
+			return 0;
 		}
 	}
 
@@ -536,11 +556,11 @@ public class AIPlayer extends PlayerObject {
 	// }
 	// }
 
-	public void takeDummyTiles(Point location, DummyTile[][] dummyTiles, ArrayList<DummyTile> legalMovesDummy,
+	public int takeDummyTiles(Point location, DummyTile[][] dummyTiles, ArrayList<DummyTile> legalMovesDummy,
 			int currentPlayer) {
 
 		int index = 0;
-		// int tilesTaken = 0;
+		int tilesTaken = 0;
 
 		// for(int row = getLocation().x - 1; row <= getLocation().x + 1; row++)
 		// {
@@ -573,13 +593,15 @@ public class AIPlayer extends PlayerObject {
 					// col);
 					if (checkLegalMoveDummy(location, row, col, dummyTiles, legalMovesDummy, currentPlayer)) {
 
-						takeTiles(row, col, location, dummyTiles, currentPlayer);
+						tilesTaken += takeTiles(row, col, location, dummyTiles, currentPlayer);
 					}
 				}
 
 				index++;
 			}
 		}
+		
+		return tilesTaken;
 		// ReversiGame.players.get(GameEngine.currentPlayer).setPieceCount(tilesTaken
 		// + 1);
 		// ReversiGame.players.get((GameEngine.currentPlayer + 1) %
@@ -587,10 +609,10 @@ public class AIPlayer extends PlayerObject {
 		// System.out.println("tilesTaken = " + tilesTaken);
 	}
 
-	public void takeTiles(int addX, int addY, Point location, DummyTile[][] dummyTiles, int currentPlayer) {
+	public int takeTiles(int addX, int addY, Point location, DummyTile[][] dummyTiles, int currentPlayer) {
 
 		Point point = new Point(location.getLocation().x + addX, location.getLocation().y + addY);
-		// int tilesTaken = 0;
+		int tilesTaken = 0;
 
 		while (dummyTiles[point.getLocation().x][point.getLocation().y].isOccupied()
 				&& dummyTiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
@@ -602,10 +624,10 @@ public class AIPlayer extends PlayerObject {
 			// (point.y));
 			// System.out.println();
 			point.translate(addX, addY);
-			// tilesTaken += 1;
+			tilesTaken += 1;
 		}
 
-		// return tilesTaken;
+		return tilesTaken;
 	}
 
 	// If a tile is occupied set each neighbours occupiedNeighbours array at

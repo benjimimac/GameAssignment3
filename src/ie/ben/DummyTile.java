@@ -56,9 +56,9 @@ public class DummyTile {
 		return occupied;
 	}
 
-	public void setOccupied() {
+	public void setOccupied(boolean occupied) {
 
-		occupied = true;
+		this.occupied = occupied;
 	}
 
 	public int getOccupiedBy() {
