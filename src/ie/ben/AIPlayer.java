@@ -295,7 +295,7 @@ public class AIPlayer extends PlayerObject {
 							ReversiGame.tiles[row][col].getOccupiedNeighbours());
 					// System.out.println(row + ", " + col);
 					tempDummyTiles[row][col] = tempDummyTile;
-
+					
 					// if
 					// (GameEngine.containsPotentialMove(ReversiGame.tiles[row][col]))
 					// {
@@ -313,23 +313,23 @@ public class AIPlayer extends PlayerObject {
 					// }
 					// System.out.println(row + ", " + col);
 				}
-
-				// Fill the two dummy ArrayLists
-				for (Tile potentialMove : GameEngine.potentialMoves) {
-
-					potentialMovesDummy
-							.add(tempDummyTiles[potentialMove.getLocation().x][potentialMove.getLocation().y]);
-				}
-
-				for (Tile legalMove : GameEngine.legalMoves) {
-
-					legalMovesDummy.add(tempDummyTiles[legalMove.getLocation().x][legalMove.getLocation().y]);
-				}
-
-				int test = getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles,
-						GameEngine.currentPlayer);
-				// System.out.println(test);
 			}
+			
+			// Fill the two dummy ArrayLists
+			for (Tile potentialMove : GameEngine.potentialMoves) {
+
+				potentialMovesDummy
+						.add(tempDummyTiles[potentialMove.getLocation().x][potentialMove.getLocation().y]);
+			}
+
+			for (Tile legalMove : GameEngine.legalMoves) {
+
+				legalMovesDummy.add(tempDummyTiles[legalMove.getLocation().x][legalMove.getLocation().y]);
+			}
+
+			int test = getMoveWeights(potentialMovesDummy, legalMovesDummy, tempDummyTiles,
+					GameEngine.currentPlayer);
+			// System.out.println(test);
 		}
 		System.out.println("End of selectMove");
 		return 0;
@@ -338,7 +338,7 @@ public class AIPlayer extends PlayerObject {
 	public int getMoveWeights(ArrayList<DummyTile> potentialMovesDummy, ArrayList<DummyTile> legalMovesDummy,
 			DummyTile[][] dummyTiles, int player) { // , int index) {
 
-		if (!legalMovesDummy.isEmpty()) {
+		if (legalMovesDummy.isEmpty()) {
 
 			return 1;
 		} else {
@@ -347,14 +347,16 @@ public class AIPlayer extends PlayerObject {
 
 				// Create a new 2d array to store dummyTiles that can be
 				// modified in the for loop
-				DummyTile[][] tempDummyTiles = new DummyTile[dummyTiles.length][dummyTiles[0].length];
+				DummyTile[][] tempDummyTiles = new DummyTile[8][8];//[dummyTiles.length][dummyTiles[0].length];
 
-				for (int row = 0; row < dummyTiles.length; row++) {
+				for (int row = 0; row < ReversiGame.TILES_PER; row++) {
 
-					for (int col = 0; col < dummyTiles[row].length; col++) {
+					for (int col = 0; col < ReversiGame.TILES_PER; col++) {
 
+//System.out.println(dummyTiles[row][col].getLocation());
 						DummyTile tempDummyTile = new DummyTile(new Point(row, col), dummyTiles[row][col].isOccupied(),
 								dummyTiles[row][col].getOccupiedBy(), dummyTiles[row][col].getOccupiedNeighbours());
+						
 						tempDummyTiles[row][col] = tempDummyTile;
 					}
 				}
@@ -371,9 +373,14 @@ public class AIPlayer extends PlayerObject {
 
 				for (DummyTile legalMoveDummy : legalMovesDummy) {
 
-					tempPotentialMovesDummy.add(
-							tempDummyTiles[legalMoveDummy.getLocation().x][legalMoveDummy.getLocation().y]);
+					tempLegalMovesDummy
+							.add(tempDummyTiles[legalMoveDummy.getLocation().x][legalMoveDummy.getLocation().y]);
 				}
+//				
+//				tempLegalMovesDummy.get(index).setOccupied();
+//				tempLegalMovesDummy.get(index).setOccupiedBy(player);
+//				tempPotentialMovesDummy.remove(tempLegalMovesDummy.get(index));
+//				legalMovesDummy.get(index).setWeight(getMoveWeights(tempPotentialMovesDummy, tempLegalMovesDummy, tempDummyTiles, (player + 1) % 2));
 			}
 
 			return 0;
