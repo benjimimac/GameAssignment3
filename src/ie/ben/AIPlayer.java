@@ -75,8 +75,8 @@ public class AIPlayer extends PlayerObject {
 
 		int weight = 0;
 		int x = 0;
-
-		if (dummyPotentialMoves.isEmpty()) {//{dummyLegalMoves.isEmpty()) {
+System.out.println("LEGAL MOVES IS " + dummyLegalMoves.size());
+		if (dummyLegalMoves.isEmpty()) {//{dummyLegalMoves.isEmpty()) {
 
 			return score2 - score1;
 		} else {
@@ -103,23 +103,23 @@ public class AIPlayer extends PlayerObject {
 
 				for (DummyTile dummyPotentialMove : dummyPotentialMoves) {
 					if (!tempDummyPotentialMoves.contains(
-							dummyTiles[dummyPotentialMove.getLocation().x][dummyPotentialMove.getLocation().y])) {
+							tempDummyTiles[dummyPotentialMove.getLocation().x][dummyPotentialMove.getLocation().y])) {
 						tempDummyPotentialMoves.add(
-								dummyTiles[dummyPotentialMove.getLocation().x][dummyPotentialMove.getLocation().y]);
+								tempDummyTiles[dummyPotentialMove.getLocation().x][dummyPotentialMove.getLocation().y]);
 					}
 				}
 
 				for (DummyTile dummyLegalMove : dummyLegalMoves) {
 					if (!tempDummyLegalMoves
-							.contains(dummyTiles[dummyLegalMove.getLocation().x][dummyLegalMove.getLocation().y])) {
+							.contains(tempDummyTiles[dummyLegalMove.getLocation().x][dummyLegalMove.getLocation().y])) {
 						tempDummyLegalMoves
-								.add(dummyTiles[dummyLegalMove.getLocation().x][dummyLegalMove.getLocation().y]);
+								.add(tempDummyTiles[dummyLegalMove.getLocation().x][dummyLegalMove.getLocation().y]);
 					}
 				}
 
 				tempDummyLegalMoves.get(index).setOccupied(true);
 				tempDummyLegalMoves.get(index).setOccupiedBy(currentPlayer);
-				tempDummyPotentialMoves.remove(dummyLegalMoves.get(index));
+				tempDummyPotentialMoves.remove(tempDummyLegalMoves.get(index));
 
 				setDummyNeighboursOccupiedNeighbours(tempDummyTiles, tempDummyPotentialMoves,
 						dummyLegalMoves.get(index).getLocation());
