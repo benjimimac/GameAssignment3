@@ -46,7 +46,6 @@ public class PlayerObject {
 
 	public void setPieceCount(int pieceCount) {
 		this.pieceCount += pieceCount;
-		System.out.println("piece count for player " + player + " is " + this.pieceCount);
 	}
 
 	//First initialisation method for a new game
@@ -73,7 +72,5 @@ public class PlayerObject {
 		} else {
 			setColour(Color.white);
 		}
-		
-		System.out.println("player colour is : " + colour);
 	}
 }

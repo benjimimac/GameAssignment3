@@ -109,17 +109,6 @@ public class DummyTile {
 
 		return false;
 	}
-
-//	public boolean checkPotentialMovesDummy() {
-//
-//		if (AIPlayer.containsPotentialMoveDummy(this)) {
-//
-//			return true;
-//		}
-//
-//		return false;
-//	}
-//
 	public boolean checkLegalMovesDummy(ArrayList<DummyTile> legalMovesDummy) {
 
 		if (legalMovesDummy.contains(this)) {
@@ -129,39 +118,5 @@ public class DummyTile {
 
 		return false;
 	}
-//
-//	public void removeTileFromPotentialMovesDummy() {
-//
-//		AIPlayer.removeFromPotentialMovesDummy(this);
-//	}
-//
-//	// Method that checks if a tiles location point is already in the
-//	// potentialMoves ArrayList
-//	// Returns true or false
-//	public boolean containsPotentialMoveDummy(DummyTile dummyTile) {
-//
-//		if (AIPlayer.potentialMovesDummy.contains(dummyTile)) {
-//
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	// Method that adds a tiles location point to the potentialMoves ArrayList
-//	public void addToPotentialMovesDummy(DummyTile dummyTile) {
-//
-//		// Add the new point to the ArrayList potentialMoves
-//		AIPlayer.potentialMovesDummy.add(dummyTile);
-//
-//		// System.out.println("Current potential moves are :");
-//		// for (int i = 0; i < potentialMoves.size(); i++) {
-//		// System.out.println(potentialMoves.get(i).getLocation());
-//		// }
-//	}
-//
-//	public static void removeFromPotentialMovesDummy(DummyTile dummyTile) {
-//
-//		// Remove the point from potential moves
-//		AIPlayer.potentialMovesDummy.remove(dummyTile);
-//	}
+
 }

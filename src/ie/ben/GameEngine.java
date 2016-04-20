@@ -25,10 +25,6 @@ public class GameEngine extends JFrame {
 
 		initGameEngine(whichPlayer, 2);
 	}
-	//
-	// private void initGameEngine() {
-	// occupiedTiles = new ArrayList<Point>();
-	// }
 
 	// Set an ArrayList of occupied Tiles
 	private static void initOccupiedTiles() {
@@ -40,12 +36,10 @@ public class GameEngine extends JFrame {
 			for (int j = 0; j < ReversiGame.TILES_PER; j++) {
 				if (ReversiGame.tiles[i][j].isOccupied()) {
 					occupiedTiles.add(ReversiGame.tiles[i][j]);
-					// System.out.println(ReversiGame.tiles[i][j]);
 				}
 			}
 		}
 
-		// System.out.println(occupiedTiles.size());
 	}
 
 	public static void addToOccupiedTiles(Tile tile) {
@@ -86,13 +80,6 @@ public class GameEngine extends JFrame {
 			legalMove.repaint();
 		}
 	}
-
-//	private void setAdjacentTiles() {
-//
-//		// Initialise a new empty ArrayList
-//		adjacentTiles = new ArrayList<Point>();
-//
-//	}
 
 	private static void initPotentialMoves() {
 
@@ -144,11 +131,6 @@ public class GameEngine extends JFrame {
 
 		// Add the new point to the ArrayList potentialMoves
 		potentialMoves.add(tile);
-
-		// System.out.println("Current potential moves are :");
-		// for (int i = 0; i < potentialMoves.size(); i++) {
-		// System.out.println(potentialMoves.get(i).getLocation());
-		// }
 	}
 
 	public static void removeFromPotentialMoves(Tile tile) {
@@ -195,7 +177,7 @@ public class GameEngine extends JFrame {
 		}
 	}
 
-	public static boolean checkLegalMove(/* Color colour, int player, */Point location, int addX, int addY) {
+	public static boolean checkLegalMove(Point location, int addX, int addY) {
 
 		// Instantiate the leagalMoves ArrayList
 		// legalMoves = new ArrayList<Tile>();
@@ -204,15 +186,12 @@ public class GameEngine extends JFrame {
 		// tile
 		Point point = new Point(location.x + addX, location.y + addY);
 
-		// if()
 		// Check initial tile isn't occupied by the current player
-		// System.out.println("checkLegalMove point - " + point);
 		if (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].getOccupiedBy() != currentPlayer) {
 
 			// Loop while the currently selected tile is occupied
 			while (ReversiGame.tiles[point.getLocation().x][point.getLocation().y].isOccupied()) {
 
-				// System.out.println(addX + ", " + addY);
 				if (point.getLocation().x + addX < 0 || point.getLocation().x + addX > 7
 						|| point.getLocation().y + addY < 0 || point.getLocation().y + addY > 7) {
 
@@ -253,43 +232,29 @@ public class GameEngine extends JFrame {
 			// Use a nested loop to cycle through each row and col of the
 			// surrounding tiles to check for legal moves
 			for (int row = -1; row <= 1; row++) {
-				// for(int row = potentialMove.getLocation().x - 1; row <=
-				// potentialMove.getLocation().x + 1; row++) {
-
+				
 				for (int col = -1; col <= 1; col++) {
-					// for(int col = potentialMove.getLocation().y - 1; col <=
-					// potentialMove.getLocation().y + 1; col++) {
-
+					
 					if ((potentialMove.getLocation().x < 1 && row < 0)
 							|| (potentialMove.getLocation().x > 6 && row > 0)) {
-						// if(row < 0 || row > 7) {
 
 						index += 3;
-						// System.out.println("Inside the row break statement");
 						break;
 					}
 
 					if ((potentialMove.getLocation().y < 1 && col < 0)
 							|| (potentialMove.getLocation().y > 6 && col > 0)) {
-						// if(col < 0 || col > 7) {
 
 						index++;
 						continue;
 					}
 
-					// If (0, 0) continue to next iteration of loop
 					if (row == 0 && col == 0) {
-						// if(potentialMove.getLocation().equals(new Point(row,
-						// col))) {
+						
 						continue;
 					}
 
-					// System.out.println("index is " + index + ", location is "
-					// + potentialMove.getLocation());
-					// System.out.println("index is " + index + ", location is
-					// (" + row + ", " + col + ")");
-					// If the neighbour at (row, col) is occupied - check if
-					// legal move
+					
 					if (potentialMove.getOccupiedNeighbour(index)) {
 
 						if (checkLegalMove(potentialMove.getLocation(), row, col)) {
@@ -327,8 +292,7 @@ public class GameEngine extends JFrame {
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].setOccupiedBy(currentPlayer);
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].revalidate();
 			ReversiGame.tiles[point.getLocation().x][point.getLocation().y].repaint();
-//			System.out.println("takeTiles method " + (point.x) + ", " + (point.y));
-			// System.out.println();
+
 			point.translate(addX, addY);
 			tilesTaken += 1;
 		}
@@ -342,10 +306,6 @@ public class GameEngine extends JFrame {
 		// Add the new point to the ArrayList legalMoves
 		legalMoves.add(tile);
 
-		// System.out.println("Current potential moves are :");
-		// for (int i = 0; i < potentialMoves.size(); i++) {
-		// System.out.println(potentialMoves.get(i).getLocation());
-		// }
 	}
 
 	private static void initGameEngine(int currentPlayer, int m) {
@@ -401,14 +361,6 @@ public class GameEngine extends JFrame {
 				if (legalMoves.isEmpty()) {
 					gameOver = true;
 					currentPlayer = 0;
-					// Create a dialog that gives scores and option for new game
-					// ReversiGame.endMessage.setVisible(true);
-
-					// public static void endGameDialog() {
-
-					// GameOver endMessage = new GameOver(this);
-					// endMessage.setVisible(false);
-					// //add(endMessage);
 
 					System.out.println("Game Over");
 				}

@@ -51,7 +51,7 @@ public class GameOver extends JDialog {
 		JLabel textLabel = new JLabel(text);
 		textLabel.setFont(new Font("Serif", Font.BOLD, 25));
 
-		JButton newBtn = new JButton("New?");
+		JButton newBtn = new JButton("Close..");
 		newBtn.addActionListener(new ActionListener() {
 
 			@Override

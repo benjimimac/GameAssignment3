@@ -73,13 +73,7 @@ public class Tile extends JPanel {
 					setBackground(new Color(135, 0, 0));
 					revalidate();
 					repaint();
-					// System.out.println("Not occupied");
 				}
-				// } else {
-				//
-				// setBackground(new Color(200, 0, 0));
-				// System.out.println("Occupied");
-				// }
 			}
 
 			@Override
@@ -98,41 +92,6 @@ public class Tile extends JPanel {
 
 				// GameEngine.updateGame(this);
 				updateGame();
-
-				if (checkLegalMoves()) {// checkPotentialMoves()) {
-					// setOccupied(true);
-					// setOccupiedBy(GameEngine.currentPlayer);
-					// setBackground(new Color(0, 123, 0));
-					// removeTileFromPotentialMoves();
-					// addNeighbours();
-					// revalidate();
-					// repaint();
-					// addToOccupied();
-					// takeTiles();
-					// GameEngine.currentPlayer = (GameEngine.currentPlayer + 1)
-					// % 2;
-					//
-					// ReversiGame.setTextAreaText();
-					//
-					// ReversiGame.setTextAreaColour();
-					//
-					// GameEngine.resetAllLegalTiles();
-					//
-					// GameEngine.setLegalMoves();
-					//
-					// GameEngine.repaintLegalMoveTiles();
-					//
-					// if (GameEngine.legalMoves.isEmpty()) {
-					//
-					// if (GameEngine.potentialMoves.isEmpty()) {
-					//
-					// System.out.println("Game Over");
-					// } else {
-					//
-					// System.out.println("No legal moves left");
-					// }
-					// }
-				}
 			}
 		});
 
@@ -140,9 +99,7 @@ public class Tile extends JPanel {
 
 	private void updateGame() {
 
-		if (checkLegalMoves() ) {//&& ReversiGame.players.get(GameEngine.currentPlayer) instanceof HumanPlayer) { // &&
-			// ReversiGame.players.get(GameEngine.currentPlayer)
-			// instanceof HumanPlayer) {
+		if (checkLegalMoves() ) {
 
 			// Update the tile properties before calling a static method from
 			// GameEngine
@@ -157,7 +114,7 @@ public class Tile extends JPanel {
 			takeTiles();
 
 			boolean gameOver = GameEngine.updateGame();
-System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
+
 			if (gameOver) {
 
 				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
@@ -166,47 +123,9 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 				// add(endMessage);
 			}
 
-			System.out.println("Human turn");
-
-			int index = ((AIPlayer) ReversiGame.players.get(1)).selectMove();
-//			GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
-//			gameOver = GameEngine.updateGame();
-//
-//			if (gameOver) {
-//
-//				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
-//						ReversiGame.players.get(1).pieceCount);
-//				endMessage.setVisible(true);
-//				// add(endMessage);
-//			}
 			
-//			System.out.println("AI turn, index is " + index);
-//			//GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
-//
-//			revalidate();
-//			repaint();
-
-//			gameOver = GameEngine.updateGame();
-//
-//			if (gameOver) {
-//
-//				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
-//						ReversiGame.players.get(1).pieceCount);
-//				endMessage.setVisible(true);
-//				// add(endMessage);
-//			}
-//			
-//			takeTiles();
-//			System.out.println("Finished move");
 		}
-		// } else if(checkLegalMoves() &&
-		// ReversiGame.players.get(GameEngine.currentPlayer) instanceof
-		// AIPlayer) {
-		// int index = ((AIPlayer)
-		// ReversiGame.players.get(GameEngine.currentPlayer)).selectMove();
-		// System.out.println("AI turn, index is " + index);
-		// GameEngine.currentPlayer = (GameEngine.currentPlayer + 1) % 2;
-		// }
+		
 	}
 
 	private void initEmptyTile(Point location) {
@@ -218,8 +137,7 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 		// Initialise the nneighbours boolean array
 		initNeighbours();
 
-		// piece = new Piece(row, col, Color.black);
-		// add(piece);
+		
 	}
 
 	private void initOccupiedTile(Point location, int occupiedBy) {
@@ -233,14 +151,7 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 		// Initialise the nneighbours boolean array
 		initNeighbours();
 
-		// if (getOccupiedBy() == 0) {
-		// piece = new Piece(row, col, Color.black);
-		// } else {
-		// piece = new Piece(row, col, Color.white);
-		// }
-		//
-		// this.add(piece);
-		// setComponentZOrder(piece, 0);
+		
 	}
 
 	public void initNeighbours() {
@@ -249,11 +160,6 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 		// false
 		occupiedNeighbours = new boolean[ReversiGame.TILES_PER];
 
-		// Avoid an index out of bounds exception
-		// if(location.x != 0) {//If not the top row
-		// setOccupiedNeighbour(0, ReversiGame.tiles[location.x][location.y -
-		// 1].isOccupied());
-		// }
 	}
 
 	// Each tile should know if their neighbours are occupied or not
@@ -298,10 +204,7 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 			}
 		}
 
-//		for (int i = 0; i < 8; i++) {
-//
-//			// System.out.println(occupiedNeighbours[i]);
-//		}
+
 	}
 
 	// Checks is the tile is a candidate for a potential move
@@ -396,13 +299,6 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 		return occupiedBy;
 	}
 
-	// public void setRow(int row) {
-	// this.row = row;
-	// }
-	//
-	// public void setCol(int col) {
-	// this.col = col;
-	// }
 
 	public void setLocation(Point location) {
 
@@ -419,22 +315,16 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 		int index = 0;
 		int tilesTaken = 0;
 
-		// for(int row = getLocation().x - 1; row <= getLocation().x + 1; row++)
-		// {
 		for (int row = -1; row <= 1; row++) {
 
-			// for(int col = getLocation().y - 1; col <= getLocation().y + 1;
-			// col++) {
 			for (int col = -1; col <= 1; col++) {
 
 				if (getLocation().x + row < 0 || getLocation().x + row > 7) {
-					// System.out.println("row break");
 					index += 3;
 					break;
 				}
 
 				if (getLocation().y + col < 0 || getLocation().y + col > 7) {
-					// System.out.println("col continue");
 					index++;
 					continue;
 				}
@@ -445,9 +335,7 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 				}
 
 				if (getOccupiedNeighbour(index)) {
-					// System.out.println("Tile.takeTiles method if statement -
-					// index is " + index + " - row/col is " + row + ", " +
-					// col);
+					
 					if (GameEngine.checkLegalMove(location, row, col)) {
 
 						tilesTaken += GameEngine.takeTiles(row, col, location);
@@ -459,45 +347,30 @@ System.out.println(GameEngine.legalMoves.size() + " legalMoves size");
 		}
 		ReversiGame.players.get(GameEngine.currentPlayer).setPieceCount(tilesTaken + 1);
 		ReversiGame.players.get((GameEngine.currentPlayer + 1) % 2).setPieceCount(-tilesTaken);
-//		System.out.println("tilesTaken = " + tilesTaken);
 	}
 
-	// public int getRow() {
-	// return row;
-	// }
-	//
-	// public int getCol() {
-	// return col;
-	// }
+	
 
 	@Override
 	public void paintComponent(Graphics graphic) {
-
-		// BufferedImage img = new BufferedImage(50, 50,
-		// BufferedImage.TYPE_INT_RGB);
-		// graphic = img.getGraphics();
 
 		super.paintComponent(graphic);
 
 		Graphics2D graphic2D = (Graphics2D) graphic;
 
 		Dimension size = this.getSize();
-		// System.out.println(size.width);
 
 		if (isOccupied()) {
 			if (occupiedBy == 0) {
-				graphic2D.setColor(new Color(0, 0, 0));// colour);
+				graphic2D.setColor(new Color(0, 0, 0));
 			} else {
-				graphic2D.setColor(new Color(255, 255, 255));// colour);
+				graphic2D.setColor(new Color(255, 255, 255));
 			}
 			graphic2D.fillOval((size.width / 2) - (ReversiGame.PIECE_SIZE / 2),
 					size.height / 2 - (ReversiGame.PIECE_SIZE / 2), ReversiGame.PIECE_SIZE, ReversiGame.PIECE_SIZE);
 
 		}
-		// Piece piece = new Piece(1, 1, Color.black);
-		// add(piece);
-
-		// ImageIcon icon = new ImageIcon(img);
+		
 	}
 
 }

@@ -9,29 +9,10 @@ import javax.swing.JPanel;
 
 class DrawPanel extends JPanel {
 
-	private void drawMenuBoard(Graphics graphic) {
-
-		// Graphics2D menuGraphic = (Graphics2D) graphic;
-
-		// menuGraphic.setColor(Color.green);
-
-		// graphic.setColor(new Color(255, 0, 0));
-		// graphic.drawRect(50, 50, 100, 100);
-
-		// Draw the tiles on the board
-		for (int i = 0; i < ReversiGame.TILES_PER; i++) {
-
-		}
-
-		// menuGraphic.setColor(new Color(255, 0, 0));
-		// menuGraphic.drawRect(insets.left, insets.top, menuWidth, menuHeight);
-	}
-
 	@Override
 	public void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		drawMenuBoard(g);
 	}
 }
 
@@ -46,14 +27,6 @@ public class MainMenu extends JPanel {
 
 	}
 
-	// public final void initUI() {
-	//
-	// DrawPanel main = new DrawPanel();
-	// add(main);
-	// }
-
-	//The paintComponent method is called automatically
-	//Here I override it, and also call its super in my implementation
 	@Override
 	public void paintComponent(Graphics graphic) {
 		super.paintComponent(graphic);
@@ -65,7 +38,6 @@ public class MainMenu extends JPanel {
 		menuWidth = size.width - insets.left - insets.right - 1;
 		menuHeight = size.height - insets.top - insets.bottom - 1;
 
-//		System.out.println(getInsets().top + ", " + getSize().width + ", " + menuWidth);
 		graphic.setColor(new Color(9, 22, 66));
 		graphic.fillRect(0, 0, size.width, size.height);
 
@@ -83,14 +55,12 @@ public class MainMenu extends JPanel {
 						ReversiGame.BOARD_START_Y + (ReversiGame.TILE_SIZE * i), ReversiGame.TILE_SIZE,
 						ReversiGame.TILE_SIZE);
 
-				// graphic.drawRect(j * 10, i * 10, 20, 20);
 			}
 		}
 
 		for (int i = 0; i <= ReversiGame.TILES_PER - 1; i++) {
 			for (int j = 0; j <= ReversiGame.TILES_PER - 1; j++) {
 
-//				System.out.println(ReversiGame.num++);
 				if (i == j) {
 					graphic.setColor(new Color(255, 255, 255));
 					graphic.fillOval(ReversiGame.PIECE_START_X + (ReversiGame.TILE_SIZE * j),
@@ -119,6 +89,5 @@ public class MainMenu extends JPanel {
 				}
 			}
 		}
-		// graphic.drawLine(675, 145, 675, 100);
 	}
 }

@@ -17,38 +17,15 @@ public class Board extends JPanel{
 	}
 	
 	private void initUI() {
-//		if (ReversiGame.gameLoaded) {
-//			remove(this);
-//			revalidate();
-//			repaint();
-//			// removeAll();
-//			// pan1.removeAll();
-//			// pan1.updateUI();
-//			// boardPanel.removeAll();
-//			// boardPanel.updateUI();
-//			// boardPanel.repaint();
-//			// boardPanel.add(pan1);
-//			// boardPanel.repaint();
-//			// remove(boardPanel);
-//			// repaint();
-//			// System.out.println("if statement");
-//		}
 
 		JPanel pan1 = new JPanel();
-		//boardPanel = new JPanel();
-		// pan1 = new JPanel();
-
-		// JLayeredPane pan2 = new JLayeredPane();
-		// boardPanel = new JPanel();
-		// game = new Game();
 
 		// Set a grid layout
 		pan1.setLayout(new GridLayout(ReversiGame.TILES_PER, ReversiGame.TILES_PER, 0, 0));
 
 		// Create the board from individual tile buttons
 		// board is 8 x 8
-		// tilesOccupied = new boolean[TILES_PER][TILES_PER];
-		// tiles = new ArrayList<ArrayList<Tile>>();
+		
 		ReversiGame.tiles = new Tile[ReversiGame.TILES_PER][ReversiGame.TILES_PER];
 		
 		//Create the tiles objects and add them to the tiles 2D array
@@ -75,11 +52,7 @@ public class Board extends JPanel{
 				// tiles.get(i).add(tile);
 				
 				ReversiGame.tiles[row][col] = tile;
-				// System.out.println("added tile");
-				// if(i == 4 && j == 4) {
-				// Piece test = new Piece(0, 0, Color.red);
-				// pan1.add(test, new Integer(2));
-				// }
+				
 			}
 		}
 		
@@ -93,26 +66,10 @@ public class Board extends JPanel{
 			}
 		}
 
-		// setBackground(new Color(9, 22, 66));
-		// pan2.setLayout(new GridLayout(1, 1, 50, 150));
 		add(pan1);
-		// Piece test = new Piece(0, 0, Color.red);
-		// add(test);
+		
 		setBackground(new Color(127, 127, 127));
-//		add(boardPanel, BorderLayout.SOUTH);
-		// getContentPane().setBackground(new Color(9, 22, 66));
-		// game.setVisible(false);
-		// menu = new MainMenu();
-		// add(menu);
 
-		// Create the container windows that holds the listener objects
-		// Container pane = getContentPane();
-		// GroupLayout gl = new GroupLayout(pane);
-		// pane.setLayout(gl);
-
-		// Set the title/size/position/close operation
-
-		// boardPanel.repaint();
 		revalidate();
 		repaint();
 		ReversiGame.gameLoaded = true;

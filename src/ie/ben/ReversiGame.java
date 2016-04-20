@@ -57,11 +57,9 @@ public class ReversiGame extends JFrame {
 
 	public HumanPlayer player1;
 	public AIPlayer player2;
-	public static ArrayList<PlayerObject> players;// = new ArrayList<PlayerObject>();
+	public static ArrayList<PlayerObject> players;
 
-	// private JPanel pan1;
-
-	// public boolean[][] tilesOccupied;
+	
 
 	// Public constructor for the game
 	public ReversiGame() {
@@ -81,12 +79,9 @@ public class ReversiGame extends JFrame {
 		createMenuBar();
 		menu = new MainMenu();
 		add(menu);
-		// menu.setVisible(false);
 		
 		settings = new Settings();
 
-		// Tile tileTest = new Tile(1, 1, 1);
-		// add(tileTest);
 
 		setTitle("Reversi");
 		setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -146,11 +141,6 @@ public class ReversiGame extends JFrame {
 				players.add(player1);
 				players.add(player2);
 
-				// Create the text areas for each player
-				//createTextArea();
-
-				// Call the createBoard method
-//				createBoard();
 				
 				if (gameLoaded) {
 					remove(textArea1);
@@ -170,19 +160,11 @@ public class ReversiGame extends JFrame {
 				add(boardPanel, BorderLayout.SOUTH);
 				
 				setTextAreaColour();
-				// boardPanel.setVisible(false);
-
-				// boardPanel.setVisible(true);
 				
-				//GameEngine test = new GameEngine(settings.getPlayerNumber());
-				//test.setOccupied();
-				//System.out.println(test.occupiedTiles.size());
 				GameEngine.initGameEngine(player);
 				GameEngine.setLegalMoves();
-				System.out.println("The legal moves array list is of size " + GameEngine.legalMoves.size());
 				GameEngine.repaintLegalMoveTiles();
 				
-				//endGameDialog();
 			}
 		});
 		JMenuItem saveGame = new JMenuItem(new MenuItemAction("Save", saveIcon, KeyEvent.VK_S));
@@ -216,152 +198,6 @@ public class ReversiGame extends JFrame {
 		menuBar.add(helpGame);
 
 		setJMenuBar(menuBar);
-	}
-
-	private void createBoard() {
-
-		if (gameLoaded) {
-			remove(this.boardPanel);
-			revalidate();
-			repaint();
-			// removeAll();
-			// pan1.removeAll();
-			// pan1.updateUI();
-			// boardPanel.removeAll();
-			// boardPanel.updateUI();
-			// boardPanel.repaint();
-			// boardPanel.add(pan1);
-			// boardPanel.repaint();
-			// remove(boardPanel);
-			// repaint();
-			// System.out.println("if statement");
-		}
-
-		JPanel pan1 = new JPanel();
-		boardPanel = new JPanel();
-		// pan1 = new JPanel();
-
-		// JLayeredPane pan2 = new JLayeredPane();
-		// boardPanel = new JPanel();
-		// game = new Game();
-
-		// Set a grid layout
-		pan1.setLayout(new GridLayout(TILES_PER, TILES_PER, 0, 0));
-
-		// Create the board from individual tile buttons
-		// board is 8 x 8
-		// tilesOccupied = new boolean[TILES_PER][TILES_PER];
-		// tiles = new ArrayList<ArrayList<Tile>>();
-		tiles = new Tile[TILES_PER][TILES_PER];
-		
-		//Create the tiles objects and add them to the tiles 2D array
-		for (int row = 0; row < TILES_PER; row++) {
-			
-			// tiles.add(new ArrayList<Tile>());
-			for (int col = 0; col < TILES_PER; col++) {
-				
-				if (row == col && (row == 3 || row == 4)) {
-					
-					tile = new Tile(new Point(row, col), 1);
-					// tilesOccupied[i][j] = true;
-				} else if ((row == 3 && col == 4) || (row == 4 && col == 3)) {
-					
-					tile = new Tile(new Point(row, col), 0);
-					// tilesOccupied[i][j] = true;
-				} else {
-					
-					tile = new Tile(new Point(row, col));
-					// tilesOccupied[i][j] = false;
-				}
-
-				pan1.add(tile, new Integer(1));
-				// tiles.get(i).add(tile);
-				
-				tiles[row][col] = tile;
-				// System.out.println("added tile");
-				// if(i == 4 && j == 4) {
-				// Piece test = new Piece(0, 0, Color.red);
-				// pan1.add(test, new Integer(2));
-				// }
-			}
-		}
-		
-		//Set each tiles boolean array occupiedNeighbours to true or false
-		for(int row = 0; row < tiles.length; row++) {
-			
-			for( int col = 0; col < tiles[row].length; col++) {
-				
-				//Call the setOccupiedNeighbours method on every tile object
-				tiles[row][col].setOccupiedNeighbours();
-			}
-		}
-
-		// setBackground(new Color(9, 22, 66));
-		// pan2.setLayout(new GridLayout(1, 1, 50, 150));
-		boardPanel.add(pan1);
-		// Piece test = new Piece(0, 0, Color.red);
-		// add(test);
-		boardPanel.setBackground(new Color(127, 127, 127));
-		add(boardPanel, BorderLayout.SOUTH);
-		// getContentPane().setBackground(new Color(9, 22, 66));
-		// game.setVisible(false);
-		// menu = new MainMenu();
-		// add(menu);
-
-		// Create the container windows that holds the listener objects
-		// Container pane = getContentPane();
-		// GroupLayout gl = new GroupLayout(pane);
-		// pane.setLayout(gl);
-
-		// Set the title/size/position/close operation
-
-		// boardPanel.repaint();
-		revalidate();
-		repaint();
-		gameLoaded = true;
-
-	}
-
-	private void createTextArea() {
-
-		int playerNum = 1;
-
-		// In a for loop add two text areas that will show both players progress
-		for (PlayerObject player : players) {
-
-			// Create a JPanel that will contain the JLabel and set its
-			// preferences
-			JPanel panel1 = new JPanel();
-			panel1.setBackground(new Color(41, 41, 41));
-			panel1.setPreferredSize(new Dimension(WINDOW_WIDTH / 2, 200));
-			panel1.setBorder(BorderFactory.createEtchedBorder(20, Color.white, Color.white));
-
-			// Add the JLabel
-			JLabel label1 = new JLabel(
-					"<html>Player: " + playerNum + "<br>PieceCount: " + player.pieceCount + "</html>"); // Player
-			// details
-			// will
-			// go
-			// here
-			label1.setFont(new Font("Serif", Font.BOLD, 19));
-			label1.setLayout(new BorderLayout());
-			label1.setForeground(Color.white);
-
-			// Add the JLabel to the JPanel
-			panel1.add(label1);
-
-			// Position the JPanels appropriately
-			if (playerNum == 1) {
-
-				add(panel1, BorderLayout.LINE_START);
-			} else {
-
-				add(panel1, BorderLayout.LINE_END);
-			}
-
-			// Increment playerNum
-			playerNum++;
-		}
 	}
 
 	// Create a private inner class to handle the mnemonic and naming of the
