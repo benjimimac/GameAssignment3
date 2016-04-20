@@ -100,6 +100,7 @@ public class Tile extends JPanel {
 	private void updateGame() {
 
 		if (checkLegalMoves() ) {
+//			((AIPlayer) ReversiGame.players.get(1)).selectMove();
 
 			// Update the tile properties before calling a static method from
 			// GameEngine
@@ -115,13 +116,15 @@ public class Tile extends JPanel {
 
 			boolean gameOver = GameEngine.updateGame();
 
-			if (gameOver) {
-
-				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
-						ReversiGame.players.get(1).pieceCount);
-				endMessage.setVisible(true);
-				// add(endMessage);
-			}
+//			if (gameOver) {
+//
+//				GameOver endMessage = new GameOver(this, ReversiGame.players.get(0).pieceCount,
+//						ReversiGame.players.get(1).pieceCount);
+//				endMessage.setVisible(true);
+//				// add(endMessage);
+//			}
+			
+			((AIPlayer) ReversiGame.players.get(1)).selectMove();
 
 			
 		}
